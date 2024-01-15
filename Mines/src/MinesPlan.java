@@ -179,11 +179,26 @@ public class MinesPlan {
      * @throws BadCoordsException if the coordinates are off the game plan
      */
     public int getNumberOfMines(int x, int y) {
-        /**
-         * Returns number of covered fields in the game plan.
-         *
-         * @return int
-         */
+        int count = 0;
+        for (int i = 0; i < mines.length; i++) {
+            for (int j = 0; j < mines.length; j++) {
+                if (mines[(x + j) - 1][(y + i) - 1] == true) {
+                    count += 1;
+
+                }
+                return count;
+
+            }
+
+        }
+        return 0;
+    }
+
+    /**
+     * Returns number of covered fields in the game plan.
+     *
+     * @return int
+     */
     public int getNumberOfCovered() {
         int count = 0;
         for (int i = 0; i < hidden.length; i++) {
