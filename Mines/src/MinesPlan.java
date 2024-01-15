@@ -239,6 +239,8 @@ public class MinesPlan {
      * @throws BadCoordsException if the coordinates are off the game plan
      */
     public void uncover(int x, int y) {
+        hidden[y][x] = true;
+        
 
     }
 
@@ -251,6 +253,7 @@ public class MinesPlan {
      * @throws BadCoordsException if the coordinates are off the game plan
      */
     public void mark(int x, int y, boolean marked) {
+        this.marked[y][x] = true;
     }
 
 }
