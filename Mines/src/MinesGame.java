@@ -2,7 +2,7 @@
  * Minesweeper game class
  */
 public class MinesGame {
-    MinesPlan plan ;
+    private MinesPlan plan ;
     int STATE_PLAYING = 1;
     int STATE_EXPLODED = 2;
     int STATE_DONE = 3;
@@ -80,6 +80,9 @@ public class MinesGame {
     * @throws BadCoordsException     if coordinates are out of plan
     */
    public void switchMarked(int x, int y) {
+       boolean markAt =plan.isMarkedAt(x, y);
+       plan.mark(x, y, markAt);
+      
        
    }
 
