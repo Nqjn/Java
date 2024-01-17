@@ -99,9 +99,14 @@ public class MinesGame {
     * @throws BadCoordsException   if the coordinates are outside the game plan.
     */
    public void uncover(int x, int y) {
+       if (plan.getNumberOfMines() == 0) {
+           plan.uncoverAll();
+       }
+       if (!plan.isMarkedAt(x, y)) {
+           plan.uncover(x, y);
+       }
+       
    }
-
-
    /**
     * Recursive method for uncovering fields in the vicinity of the free
     * field.
