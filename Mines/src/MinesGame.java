@@ -81,9 +81,9 @@ public class MinesGame {
      * @throws WrongActionException if field is uncovered
      * @throws BadCoordsException if coordinates are out of plan
      */
-    public void switchMarked(int x, int y)throws WrongActionException  {
+    public void switchMarked(int x, int y) throws WrongActionException  {
         if(!plan.isCoveredAt(x, y)) throw new WrongActionException("Field is uncovered mus be covered");
-        if(x > plan.getWidth() || x > plan.getWidth() || x > plan.getWidth() || x > plan.getWidth()) throw new BadCoordsException("Coord are out of field");
+        if(x >= plan.getWidth()  || x < 0  || y >= plan.getHeight() || y < 0) throw new BadCoordsException("Coord are out of field");
         boolean markAt = plan.isMarkedAt(x, y);
         plan.mark(x, y, markAt);
 
@@ -123,6 +123,9 @@ public class MinesGame {
      * @param y y-coord
      */
     private void uncoverZero(int x, int y) {
+      
+        
+        
     }
 
     /**
