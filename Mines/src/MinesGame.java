@@ -11,9 +11,9 @@ import java.util.Set;
 public class MinesGame {
 
     private MinesPlan plan;
-    int STATE_PLAYING = 1;
-    int STATE_EXPLODED = 2;
-    int STATE_DONE = 3;
+    static int STATE_PLAYING = 1;
+    static int STATE_EXPLODED = 2;
+    static int STATE_DONE = 3;
     Random rand = new Random();
 
     /**
@@ -24,7 +24,7 @@ public class MinesGame {
      * @param mines number of mines (min. 1, max. w*h-1)
      * @throws BadNumberException if w, h or mines has a bad value
      */
-    public MinesGame(int w, int h, int mines) {
+    public MinesGame(int w, int h, int mines) throws BadNumberException {
         this.plan = new MinesPlan(2, 2);
 
     }
@@ -81,7 +81,9 @@ public class MinesGame {
      * @throws WrongActionException if field is uncovered
      * @throws BadCoordsException if coordinates are out of plan
      */
-    public void switchMarked(int x, int y) {
+    public void switchMarked(int x, int y)throws WrongActionException  {
+        if(!plan.isCoveredAt(x, y)) throw new WrongActionException("Field is uncovered mus be covered");
+        if(x > plan.getWidth() || x > plan.getWidth() || x > plan.getWidth() || x > plan.getWidth()) throw new BadCoordsException("Coord are out of field");
         boolean markAt = plan.isMarkedAt(x, y);
         plan.mark(x, y, markAt);
 

@@ -29,9 +29,9 @@ public class MinesPlan {
      * @param h height
      * @throws BadNumberException if w or h is smaller than 2
      */
-    public MinesPlan(int w, int h) {
-        if (width < 2 || height < 2) {
-            throw new RuntimeException("Bad size, must be at least 2x2. But it was " + width + "x" + height);
+    public MinesPlan(int w, int h){
+        if (w < 2 || h < 2) {
+            throw new BadNumberException("Bad size, must be at least 2x2. But it was " + width + "x" + height);
         }
         this.width = w;
         this.height = h;
