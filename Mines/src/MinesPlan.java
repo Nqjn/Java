@@ -1,13 +1,11 @@
 
 import java.util.Arrays;
-import java.util.Random;
 
 /**
  * Minesweeper game plan
  */
 public class MinesPlan {
 
-    Random rand = new Random();
     private boolean[][] mines;
     private boolean[][] hidden;
     private boolean[][] marked;
@@ -19,6 +17,20 @@ public class MinesPlan {
      * Default constructor - clear 2x2 plan.
      */
     public MinesPlan() {
+        this.width = 2;
+        this.height = 2;
+        this.mines = new boolean[this.height][this.width];
+        this.hidden = new boolean[this.height][this.width];
+        this.marked = new boolean[this.height][this.width];
+        for (int i = 0; i < this.width; i++) {
+            for (int j = 0; j < this.height; j++) {
+                this.mines[j][i] = false;
+                this.hidden[j][i] = false;
+                this.marked[j][i] = false;
+
+            }
+
+        }
 
     }
 
@@ -29,13 +41,15 @@ public class MinesPlan {
      * @param h height
      * @throws BadNumberException if w or h is smaller than 2
      */
-    public MinesPlan(int w, int h){
+    public MinesPlan(int w, int h) {
         if (w < 2 || h < 2) {
-            throw new BadNumberException("Bad size, must be at least 2x2. But it was " + width + "x" + height);
+            throw new BadNumberException("Bad size, must be at least 2x2. But it was " + w + "x" + h);
         }
         this.width = w;
         this.height = h;
         this.mines = new boolean[h][w];
+        this.hidden = new boolean[h][w];
+        this.marked = new boolean[h][w];
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
                 this.mines[j][i] = false;
@@ -52,27 +66,36 @@ public class MinesPlan {
      * Removes all mines from the game plan.
      */
     public void clearAllMines() {
-        Arrays.fill(this.mines, false);
+        for (int i = 0; i < this.height; i++) {
+            for (int j = 0; j < this.width; j++) {
+                this.mines[i][j] = false;
 
+            }
+
+        }
     }
 
     /**
      * Removes all marks from the game plan.
      */
     public void clearAllMarks() {
-        Arrays.fill(this.marked, false);
+        for (int i = 0; i < this.width; i++) {
+            for (int j = 0; j < this.height; j++) {
+                this.marked[j][i] = false;
+
+            }
+
+        }
     }
 
     /**
      * Covers all fields on the game plan.
      */
     public void coverAll() {
-        for (int i = 0; i < hidden.length; i++) {
-            for (int j = 0; j < hidden.length; j++) {
-                if (hidden[i][j] == false) {
-                    hidden[i][j] = true;
+        for (int i = 0; i < this.width; i++) {
+            for (int j = 0; j < this.height; j++) {
 
-                }
+                hidden[j][i] = true;
 
             }
 
@@ -84,10 +107,10 @@ public class MinesPlan {
      * Uncovers all fields on the game plan.
      */
     public void uncoverAll() {
-        for (int i = 0; i < hidden.length; i++) {
-            for (int j = 0; j < hidden.length; j++) {
-                if (hidden[i][j] == true) {
-                    hidden[i][j] = false;
+        for (int i = 0; i < this.width; i++) {
+            for (int j = 0; j < this.height; j++) {
+                if (hidden[j][i] == true) {
+                    hidden[j][i] = false;
 
                 }
 
@@ -158,9 +181,9 @@ public class MinesPlan {
      */
     public int getNumberOfMines() {
         int count = 0;
-        for (int i = 0; i < mines.length; i++) {
-            for (int j = 0; j < mines.length; j++) {
-                if (hidden[i][j] == true) {
+        for (int i = 0; i < this.width; i++) {
+            for (int j = 0; j < this.height; j++) {
+                if (mines[j][i] == true) {
                     count += 1;
 
                 }
@@ -179,19 +202,32 @@ public class MinesPlan {
      * @throws BadCoordsException if the coordinates are off the game plan
      */
     public int getNumberOfMines(int x, int y) {
+        if (x < 0 || x >= width || y < 0 || y >= height) {
+            throw new BadCoordsException("Bad size, must be at least 2x2. But it was " + width + "x" + height);
+        }
+
         int count = 0;
-        for (int i = 0; i < mines.length; i++) {
-            for (int j = 0; j < mines.length; j++) {
-                if (mines[(x + j) - 1][(y + i) - 1] == true) {
-                    count += 1;
+        if (mines[y][x]) {
+            count -= 1;
+
+        }
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                int newX = x + j;
+                int newY = y + i;
+
+                if (newX >= 0 && newX < this.width && newY >= 0 && newY < this.height) {
+                    if (mines[newY][newX]) {
+                        count += 1;
+
+                    }
 
                 }
-                return count;
 
             }
 
         }
-        return 0;
+        return count;
     }
 
     /**
@@ -201,9 +237,9 @@ public class MinesPlan {
      */
     public int getNumberOfCovered() {
         int count = 0;
-        for (int i = 0; i < hidden.length; i++) {
-            for (int j = 0; j < hidden.length; j++) {
-                if (hidden[i][j] == true) {
+        for (int i = 0; i < this.width; i++) {
+            for (int j = 0; j < this.height; j++) {
+                if (hidden[j][i] == true) {
                     count += 1;
 
                 }
@@ -222,13 +258,11 @@ public class MinesPlan {
      * @throws BadCoordsException if the coordinates are off the game plan
      */
     public void setMineAt(int x, int y) {
-
-        for (int i = 0; i < 10; i++) {
-            x = rand.nextInt(this.width);
-            y = rand.nextInt(this.height);
-            this.mines[y][x] = true;
+        if (x < 0 || x >= width || y < 0 || y >= height) {
+            throw new BadCoordsException("Bad size, must be at least 2x2. But it was " + width + "x" + height);
         }
 
+        this.mines[y][x] = true;
     }
 
     /**
@@ -239,6 +273,9 @@ public class MinesPlan {
      * @throws BadCoordsException if the coordinates are off the game plan
      */
     public void uncover(int x, int y) {
+        if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
+            throw new BadCoordsException("Bad size, must be at least 2x2. But it was " + width + "x" + height);
+        }
         hidden[y][x] = false;
 
     }
@@ -252,7 +289,11 @@ public class MinesPlan {
      * @throws BadCoordsException if the coordinates are off the game plan
      */
     public void mark(int x, int y, boolean marked) {
-        this.marked[y][x] = true;
+        if (x < 0 || x >= width || y < 0 || y >= height) {
+            throw new BadCoordsException("Bad size, must be at least 2x2. But it was " + width + "x" + height);
+        }
+        this.marked[y][x] = marked;
+
     }
 
 }
