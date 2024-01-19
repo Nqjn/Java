@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -24,9 +25,13 @@ public class MinesGame {
      * @param mines number of mines (min. 1, max. w*h-1)
      * @throws BadNumberException if w, h or mines has a bad value
      */
-    public MinesGame(int w, int h, int mines) throws BadNumberException {
-        this.plan = new MinesPlan(2, 2);
-
+    public MinesGame(int w, int h, int mines)  {
+        if(w < 2 || h < 2) {
+            throw new BadNumberException("Bad size, must be at least 2x2. But it was " + w + "x" + h);
+        }
+        
+        this.plan = new MinesPlan(w, h);
+        placeMines(mines);
     }
 
     /**
@@ -38,7 +43,15 @@ public class MinesGame {
      * @throws NullPointerException if plan is null
      */
     public MinesGame(MinesPlan plan) {
-        this.plan = new MinesPlan();
+        if (plan.getWidth() < 2 || plan.getHeight() < 2 || plan.getNumberOfMines() == 0) {
+            throw new BadNumberException("Bad size, must be at least 2x2. But it was " + plan.getWidth() + "x" + plan.getHeight());
+        }
+        int y = plan.getHeight();
+        int x = plan.getWidth();
+        int mines = plan.getNumberOfMines();
+        
+        this.plan = new MinesPlan(x, y );
+        placeMines(mines);
     }
 
     public MinesPlan getPlan() {
@@ -55,6 +68,9 @@ public class MinesGame {
      * @throws NullPointerException if plan is null
      */
     public void setPlan(MinesPlan plan) {
+        if (plan.getWidth() < 2 || plan.getHeight() < 2 ||plan.getNumberOfMines() == 0) {
+            throw new BadNumberException("Bad size, must be at least 2x2. But it was " + plan.getWidth() + "x" + plan.getHeight());
+        }
         this.plan = plan;
     }
 
@@ -83,9 +99,10 @@ public class MinesGame {
      */
     public void switchMarked(int x, int y) throws WrongActionException  {
         if(!plan.isCoveredAt(x, y)) throw new WrongActionException("Field is uncovered mus be covered");
-        if(x >= plan.getWidth()  || x < 0  || y >= plan.getHeight() || y < 0) throw new BadCoordsException("Coord are out of field");
+        if(x >= plan.getWidth()  || x < 0  || y >= plan.getHeight() || y < 0) throw new BadCoordsException("Coords are out of field");
+        
         boolean markAt = plan.isMarkedAt(x, y);
-        plan.mark(x, y, markAt);
+        plan.mark(x, y, !markAt);
 
     }
 
@@ -101,12 +118,16 @@ public class MinesGame {
      * @throws BadCoordsException if the coordinates are outside the game plan.
      */
     public void uncover(int x, int y) {
+        if (x < 0 || x >= plan.getWidth() || y < 0 || y >= plan.getHeight()) {
+            throw new BadCoordsException("Bad size, must be at least 2x2. But it was " + plan.getWidth() + "x" + plan.getHeight() + " x was "+ x + " y was " + y);
+        }
         if (plan.getNumberOfMines() == 0) {
-            plan.uncoverAll();
+            uncoverZero(x, y);
         }
-        if (!plan.isMarkedAt(x, y)) {
-            plan.uncover(x, y);
-        }
+       
+             plan.uncover(x, y);
+            
+         
 
     }
 
@@ -123,6 +144,31 @@ public class MinesGame {
      * @param y y-coord
      */
     private void uncoverZero(int x, int y) {
+        int count = 0;
+        if (mines[y][x]) {
+            count -= 1;
+
+        }
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                int newX = x + j;
+                int newY = y + i;
+
+                if (newX >= 0 && newX < this.width && newY >= 0 && newY < this.height) {
+                    if (mines[newY][newX]) {
+                        count += 1;
+
+                    }
+
+                }
+
+            }
+
+        }
+        return count;
+
+        
+        
       
         
         

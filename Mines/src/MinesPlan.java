@@ -53,7 +53,7 @@ public class MinesPlan {
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
                 this.mines[j][i] = false;
-                this.hidden[j][i] = false;
+                this.hidden[j][i] = true;
                 this.marked[j][i] = false;
 
             }
@@ -239,7 +239,7 @@ public class MinesPlan {
         int count = 0;
         for (int i = 0; i < this.width; i++) {
             for (int j = 0; j < this.height; j++) {
-                if (hidden[j][i] == true) {
+                if (hidden[j][i]) {
                     count += 1;
 
                 }
@@ -276,7 +276,7 @@ public class MinesPlan {
         if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
             throw new BadCoordsException("Bad size, must be at least 2x2. But it was " + width + "x" + height);
         }
-        hidden[y][x] = false;
+        this.hidden[y][x] = false;
 
     }
 
