@@ -121,11 +121,15 @@ public class MinesGame {
         if (x < 0 || x >= plan.getWidth() || y < 0 || y >= plan.getHeight()) {
             throw new BadCoordsException("Bad size, must be at least 2x2. But it was " + plan.getWidth() + "x" + plan.getHeight() + " x was "+ x + " y was " + y);
         }
-        if (plan.getNumberOfMines() == 0) {
+        if (plan.getNumberOfMines(x,y) == 0) {
             uncoverZero(x, y);
+           
+        }else{
+            plan.uncover(x, y);
+                  
         }
        
-             plan.uncover(x, y);
+             
             
          
 
@@ -144,35 +148,30 @@ public class MinesGame {
      * @param y y-coord
      */
     private void uncoverZero(int x, int y) {
-        int count = 0;
-        if (mines[y][x]) {
-            count -= 1;
-
+        if (x < 0 || x >= plan.getWidth() || y < 0 || y >= plan.getHeight() ) {
+            return;
         }
+        
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 int newX = x + j;
                 int newY = y + i;
 
-                if (newX >= 0 && newX < this.width && newY >= 0 && newY < this.height) {
-                    if (mines[newY][newX]) {
-                        count += 1;
+                if (plan.isMineAt(newX, newY)) {
+                    plan.uncover(x, y);
+                    return;
 
-                    }
-
+                } else {
+                    plan.uncover(x, y);
+                    uncoverZero(newX, newY);
                 }
-
             }
 
         }
-        return count;
 
-        
-        
-      
-        
-        
     }
+
+           
 
     /**
      * Randomly place a given number of mines in the covered fields in the plan.

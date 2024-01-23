@@ -102,7 +102,7 @@ public class MinesGameTest {
     public void testGetState() {
         System.out.println("getState");
         MinesGame g = new MinesGame(2, 3, 4);
-        assertEquals("New game should be in PLAYING state.",MinesGame.STATE_PLAYING, g.getState());
+        assertEquals("New game should be in PLAYING state." ,MinesGame.STATE_PLAYING, g.getState());
 
         MinesPlan p = new MinesPlan(4, 5);
         p.coverAll();
