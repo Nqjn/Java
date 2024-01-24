@@ -198,7 +198,7 @@ public class MinesGameTest {
         assertTrue("Changing marks when game over should be not allowed.", !p.isMarkedAt(2, 2));
     }
 
-    @Test
+   @Test
     public void testUncover() {
         System.out.println("uncover");
         MinesPlan p = new MinesPlan(3, 4);
@@ -211,31 +211,30 @@ public class MinesGameTest {
         MinesGame g = new MinesGame(p);
         g.uncover(0,2);
         
-        assertTrue("Uncovered field still covered.", !p.isCoveredAt(0, 2));
+        assertTrue("Uncovered field still covered.", !g.getPlan().isCoveredAt(0, 2));
         assertTrue("No other field should be uncovered when a mine is in the vicinity",p.isCoveredAt(0, 1));
         assertTrue("No other field should be uncovered when a mine is in the vicinity", p.isCoveredAt(0, 3));
 
         g.uncover(0,0);
-        assertTrue("Uncovered field still covered.", !p.isCoveredAt(0, 0));
-        assertTrue("Free fields in the vincinity of 0-surrounded field not uncovered.", !p.isCoveredAt(0, 1));
-        assertTrue("Free fields in the vincinity of 0-surrounded field not uncovered.", !p.isCoveredAt(0, 2));
-        assertTrue("Uncovered field in the vincinity of mines", p.isCoveredAt(0, 3));
-        assertTrue("Free fields in the vincinity of 0-surrounded field not uncovered.", !p.isCoveredAt(1, 0));
-        assertTrue("Free fields in the vincinity of 0-surrounded field not uncovered.", !p.isCoveredAt(1, 1));
-        assertTrue("Free fields in the vincinity of 0-surrounded field not uncovered.", !p.isCoveredAt(2, 0));
-        assertTrue("Free fields in the vincinity of 0-surrounded field not uncovered.", !p.isCoveredAt(2, 1));
-        assertTrue("Uncovered field behind mines!", p.isCoveredAt(2, 3));
+        assertTrue("Uncovered field still covered.", !g.getPlan().isCoveredAt(0, 0));
+        assertTrue("Free fields in the vincinity of 0-surrounded field not uncovered.", !g.getPlan().isCoveredAt(0, 1));
+        assertTrue("Free fields in the vincinity of 0-surrounded field not uncovered.", !g.getPlan().isCoveredAt(0, 2));
+        assertTrue("Uncovered field in the vincinity of mines", g.getPlan().isCoveredAt(0, 3));
+        assertTrue("Free fields in the vincinity of 0-surrounded field not uncovered.", !g.getPlan().isCoveredAt(1, 0));
+        assertTrue("Free fields in the vincinity of 0-surrounded field not uncovered.", !g.getPlan().isCoveredAt(1, 1));
+        assertTrue("Free fields in the vincinity of 0-surrounded field not uncovered.", !g.getPlan().isCoveredAt(2, 0));
+        assertTrue("Free fields in the vincinity of 0-surrounded field not uncovered.", !g.getPlan().isCoveredAt(2, 1));
+        assertTrue("Uncovered field behind mines!", g.getPlan().isCoveredAt(2, 3));
         
         try {
             g.switchMarked(2, 3);
         } catch (WrongActionException ex) {
         }
         g.uncover(2, 3);
-        assertTrue("Uncovered marked field.",p.isCoveredAt(2, 3));
+        assertTrue("Uncovered marked field.",g.getPlan().isCoveredAt(2, 3));
         
         g.uncover(1, 2);
         g.uncover(1, 3);
-        assertTrue("It should be not allowed to uncover field after game is over.",p.isCoveredAt(2, 3));
+        assertTrue("It should be not allowed to uncover field after game is over.",g.getPlan().isCoveredAt(2, 3));
     }
-    
 }
