@@ -46,12 +46,8 @@ public class MinesGame {
         if (plan.getWidth() < 2 || plan.getHeight() < 2 || plan.getNumberOfMines() == 0) {
             throw new BadNumberException("Bad size, must be at least 2x2. But it was " + plan.getWidth() + "x" + plan.getHeight());
         }
-        int y = plan.getHeight();
-        int x = plan.getWidth();
-        int mines = plan.getNumberOfMines();
-        
-        this.plan = new MinesPlan(x, y );
-        placeMines(mines);
+        this.plan = plan;
+      
     }
 
     public MinesPlan getPlan() {
@@ -82,8 +78,22 @@ public class MinesGame {
      * @retval STATE_DONE Player has uncovered all squares without mines
      */
     public int getState() {
-        return 0;
+        if (plan.getNumberOfMines() == 0) {
+            return STATE_DONE;
+        }
+        
+        for (int i = 0; i < plan.getHeight(); i++) {
+            for (int j = 0; j < plan.getWidth(); j++) {
+                if (plan.isMineAt(j, i) && !plan.isCoveredAt(j,i )) {
+                    return STATE_EXPLODED;
+                    
 
+                }
+
+            }
+
+        }
+        return STATE_PLAYING;
     }
 
     /**
@@ -100,9 +110,13 @@ public class MinesGame {
     public void switchMarked(int x, int y) throws WrongActionException  {
         if(!plan.isCoveredAt(x, y)) throw new WrongActionException("Field is uncovered mus be covered");
         if(x >= plan.getWidth()  || x < 0  || y >= plan.getHeight() || y < 0) throw new BadCoordsException("Coords are out of field");
+        if (getState() == 1) {
+            
+        
         
         boolean markAt = plan.isMarkedAt(x, y);
         plan.mark(x, y, !markAt);
+        }
 
     }
 
@@ -119,21 +133,29 @@ public class MinesGame {
      */
     public void uncover(int x, int y) {
         if (x < 0 || x >= plan.getWidth() || y < 0 || y >= plan.getHeight()) {
-            throw new BadCoordsException("Bad size, must be at least 2x2. But it was " + plan.getWidth() + "x" + plan.getHeight() + " x was "+ x + " y was " + y);
+            throw new BadCoordsException("out of bound x:" + x + "y:" + y );
+           
         }
+        
+        if(plan.isMarkedAt(x, y)){
+            return;
+        }
+        
         if (plan.getNumberOfMines(x,y) == 0) {
             uncoverZero(x, y);
            
         }else{
             plan.uncover(x, y);
-                  
+                
         }
+        
        
              
             
          
 
     }
+    
 
     /**
      * Recursive method for uncovering fields in the vicinity of the free field.
@@ -148,28 +170,32 @@ public class MinesGame {
      * @param y y-coord
      */
     private void uncoverZero(int x, int y) {
-        if (x < 0 || x >= plan.getWidth() || y < 0 || y >= plan.getHeight() ) {
+        if (x < 0 || x >= plan.getWidth() || y < 0 || y >= plan.getHeight()) {
             return;
         }
         
+
+        if (!plan.isCoveredAt(x, y) || plan.isMineAt(x, y)) {
+            return;
+        }
+        
+  
+        
+        plan.uncover(x, y);
+
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 int newX = x + j;
                 int newY = y + i;
+                uncoverZero(newX, newY);
 
-                if (plan.isMineAt(newX, newY)) {
-                    plan.uncover(x, y);
-                    return;
-
-                } else {
-                    plan.uncover(x, y);
-                    uncoverZero(newX, newY);
-                }
+                
             }
-
         }
 
     }
+
+    
 
            
 

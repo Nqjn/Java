@@ -130,7 +130,7 @@ public class MinesPlan {
      */
     public boolean isMineAt(int x, int y) {
         if (x < 0 || x >= width || y < 0 || y >= height) {
-            throw new BadCoordsException("Bad size, must be at least 2x2. But it was " + width + "x" + height);
+            throw new BadCoordsException("out of bound x:" + x + "y:" + y );
         }
         return this.mines[y][x];
 
@@ -146,7 +146,7 @@ public class MinesPlan {
      */
     public boolean isCoveredAt(int x, int y) {
         if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
-            throw new BadCoordsException("Bad size, must be at least 2x2. But it was " + width + "x" + height);
+            throw new BadCoordsException();
         }
         
         
@@ -173,7 +173,7 @@ public class MinesPlan {
      */
     public boolean isMarkedAt(int x, int y) {
         if (x < 0 || x >= width || y < 0 || y >= height) {
-            throw new BadCoordsException("Bad size, must be at least 2x2. But it was " + width + "x" + height);
+            throw new BadCoordsException("out of bound x:" + x + "y:" + y );
         }
         return this.marked[y][x];
     }
@@ -215,7 +215,7 @@ public class MinesPlan {
      */
     public int getNumberOfMines(int x, int y) {
         if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
-            throw new BadCoordsException("Bad size, must be at least 2x2. But it was " + width + "x" + height);
+            throw new BadCoordsException("out of bound x:" + x + "y:" + y );
         }
 
         int count = 0;
@@ -223,6 +223,7 @@ public class MinesPlan {
             count -= 1;
 
         }
+        
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 int newX = x + j;
@@ -271,7 +272,7 @@ public class MinesPlan {
      */
     public void setMineAt(int x, int y) {
         if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
-            throw new BadCoordsException("Bad size, must be at least 2x2. But it was " + width + "x" + height);
+            throw new BadCoordsException("out of bound x:" + x + "y:" + y );
         }
 
         this.mines[y][x] = true;
@@ -286,10 +287,12 @@ public class MinesPlan {
      */
     public void uncover(int x, int y) {
         if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
-            throw new BadCoordsException("Bad size, must be at least 2x2. But it was " + width + "x" + height);
+            throw new BadCoordsException("out of bound x:" + x + "y:" + y );
         }
+      
           
         this.hidden[y][x] = false;
+        
         for (int i = 0; i < getHeight(); i++) {
             for (int j = 0; j < getWidth(); j++) {
                 System.out.print(this.hidden[i][j] + " ");
@@ -312,7 +315,7 @@ public class MinesPlan {
      */
     public void mark(int x, int y, boolean marked) {
         if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
-            throw new BadCoordsException("Bad size, must be at least 2x2. But it was " + width + "x" + height);
+            throw new BadCoordsException("out of bound x:" + x + "y:" + y );
         }
         this.marked[y][x] = marked;
 
