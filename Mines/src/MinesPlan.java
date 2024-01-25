@@ -292,16 +292,8 @@ public class MinesPlan {
       
           
         this.hidden[y][x] = false;
-        
-        for (int i = 0; i < getHeight(); i++) {
-            for (int j = 0; j < getWidth(); j++) {
-                System.out.print(this.hidden[i][j] + " ");
 
-            }
-               System.out.println("");
-
-        }
-        
+     
 
     }
 

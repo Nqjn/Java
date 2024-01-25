@@ -135,6 +135,7 @@ public class MinesGameTest {
         g.uncover(1, 2);
         g.uncover(2, 0);
         g.uncover(2, 1);
+        g.getState();
         assertEquals("Not done after uncovering all free fields.",MinesGame.STATE_DONE, g.getState());
 
         p = new MinesPlan(3, 3);

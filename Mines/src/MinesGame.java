@@ -78,13 +78,10 @@ public class MinesGame {
      * @retval STATE_DONE Player has uncovered all squares without mines
      */
     public int getState() {
-        if (plan.getNumberOfMines() == 0) {
-            return STATE_DONE;
-        }
         
-        for (int i = 0; i < plan.getHeight(); i++) {
-            for (int j = 0; j < plan.getWidth(); j++) {
-                if (plan.isMineAt(j, i) && !plan.isCoveredAt(j,i )) {
+         for (int i = 0; i < plan.getWidth(); i++) {
+            for (int j = 0; j < plan.getHeight(); j++) {
+                if (plan.isMineAt(i, j) && !plan.isCoveredAt(i,j )) {
                     return STATE_EXPLODED;
                     
 
@@ -93,7 +90,20 @@ public class MinesGame {
             }
 
         }
-        return STATE_PLAYING;
+         
+       for (int i = 0; i < plan.getWidth(); i++) {
+            for (int j = 0; j < plan.getHeight(); j++) {
+                if (!plan.isMineAt(i, j) && plan.isCoveredAt(i,j )) {
+                    return STATE_PLAYING;
+                    
+
+                }
+
+            }
+
+        }
+       return STATE_DONE;
+        
     }
 
     /**
@@ -139,6 +149,9 @@ public class MinesGame {
         
         if(plan.isMarkedAt(x, y)){
             return;
+        }
+        if (plan.isMineAt(x, y)) {
+            plan.uncover(x, y);
         }
         
         if (plan.getNumberOfMines(x,y) == 0) {
