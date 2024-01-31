@@ -17,7 +17,9 @@ public class MinesWidget extends JComponent {
     private Point selected;
     private BufferedImage imageFlag;
     private BufferedImage imageSquare;
-
+    private BufferedImage imageUncoveredSquare;
+    private BufferedImage imageMine;
+    private BufferedImage[] imageBombCount = new BufferedImage[9];
 
     /**
      * Default widget constructor.
@@ -27,7 +29,6 @@ public class MinesWidget extends JComponent {
     public MinesWidget() {
         this.game = new MinesGame(5, 5, 4);
     }
-    
 
     /**
      * Constructor for the given (non-null) game.
@@ -35,10 +36,12 @@ public class MinesWidget extends JComponent {
      * @param game
      * @throws NullPointerException if game is null.
      */
-    public MinesWidget(MinesGame game) throws NullPointerException{
-        if(game == null) throw new NullPointerException("The game is null!");
+    public MinesWidget(MinesGame game) throws NullPointerException {
+        if (game == null) {
+            throw new NullPointerException("The game is null!");
+        }
         this.game = game;
-        
+
     }
 
     /**
@@ -51,7 +54,7 @@ public class MinesWidget extends JComponent {
      * @param mines number of mines
      */
     public MinesWidget(int w, int h, int mines) {
-            this.game  = new MinesGame(w,h, mines);
+        this.game = new MinesGame(w, h, mines);
     }
 
     /**
@@ -63,7 +66,7 @@ public class MinesWidget extends JComponent {
      * @param cell
      */
     public void setSelected(Point cell) {
-        
+
     }
 
     /**
@@ -73,7 +76,7 @@ public class MinesWidget extends JComponent {
      */
     public Point getSelected() {
         throw new UnsupportedOperationException("Funkce ještě není implementována.");
-        
+
     }
 
     /**
@@ -82,10 +85,12 @@ public class MinesWidget extends JComponent {
      * @param game
      * @throws NullPointerException if game is null.
      */
-    public void setGame(MinesGame game)  throws NullPointerException{
-        if(game == null) throw new NullPointerException("The game is null!");
-        this.game = game; 
-        
+    public void setGame(MinesGame game) throws NullPointerException {
+        if (game == null) {
+            throw new NullPointerException("The game is null!");
+        }
+        this.game = game;
+
     }
 
     /**
@@ -96,6 +101,7 @@ public class MinesWidget extends JComponent {
     public MinesGame getGame() {
         return this.game;
     }
+
     /**
      * Draws the game plan.
      *
@@ -109,91 +115,116 @@ public class MinesWidget extends JComponent {
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        try {
-            imageFlag= ImageIO.read(getClass().getResource("flag.png"));
-        } catch (IOException ex) {
-            System.err.println("Cannot read Background.jpg");
-        }
-        
-        try {
-            imageSquare= ImageIO.read(getClass().getResource("square.png"));
-        } catch (IOException ex) {
-            System.err.println("Cannot read Background.jpg");
-        }
-        
+        loadImages();
+
         super.paintComponent(g);
-        
+
         g.setColor(Color.BLACK);
         MinesPlan plan = game.getPlan();
-        
+
         int w = this.getWidth() / plan.getWidth();
-        int h = this.getHeight()/ plan.getHeight();
-        int s = w < h ? w:h;
-        
+        int h = this.getHeight() / plan.getHeight();
+        int s = w < h ? w : h;
+
         for (int rows = 0; rows < plan.getWidth(); rows++) {
             for (int col = 0; col < plan.getHeight(); col++) {
-                
-                g.drawRect(rows*s, col*s, s, s);
-                g.fillRect(rows*s, col*s, s, s);
-                g.setColor(Color.DARK_GRAY);
-//                g.drawImage(imageSquare, rows*s,  col*s, s, s, this);
-                
+
+                if (plan.isCoveredAt(rows, col)) {
+                    if (plan.getNumberOfMines(rows, col) != 0) {
+                        g.drawImage(imageSquare, rows * s, col * s, s, s, this);
+
+                    }
+                    g.drawImage(imageSquare, rows * s, col * s, s, s, this);
+                } else {
+                    g.drawImage(imageUncoveredSquare, rows * s, col * s, s, s, this);
+
+                }
+
             }
         }
     }
-    
+
     /**
      * Set selected field from real pixel coordinates on widget
+     *
      * @param x_pix
-     * @param y_pix 
+     * @param y_pix
      */
     public void selectPosition(int x_pix, int y_pix) {
         selected.setLocation(x_pix, y_pix);
-        
+
     }
-    
+
     /**
-     * Uncover field on real pixel coordinates on widget
-     * TODO
+     * Uncover field on real pixel coordinates on widget TODO
+     *
      * @param x_pix
-     * @param y_pix 
+     * @param y_pix
      */
     public void uncoverPosition(int x_pix, int y_pix) {
         game.uncover(x_pix, y_pix);
     }
 
     /**
-     * Flip marking on a field after real pixel coordinates on widget
-     * TODO
+     * Flip marking on a field after real pixel coordinates on widget TODO
+     *
      * @param x_pix
-     * @param y_pix 
+     * @param y_pix
      */
     public void markingPosition(int x_pix, int y_pix) throws WrongActionException {
         game.switchMarked(y_pix, y_pix);
-        
+
     }
-    
-    
+
     /**
      * Returns plan coordinates from pixel position on widget or null.
+     *
      * @param x_pix pixel x position on widget
      * @param y_pix pixel y position on widget
      * @return Point - plan coordinates or null if position outside of plan
      */
     private Point getCoordsFromPosition(int x_pix, int y_pix) {
         throw new UnsupportedOperationException("Funkce ještě není implementována.");
-        
 
-        
     }
-    
-    
+
     /**
      * Loads all images into image attributes or throws RuntimeException.
      */
-    private void loadImages() {
-    }
-    
-    
+    private void loadImages()  {
 
+        try {
+            imageFlag = ImageIO.read(getClass().getResource("flag.png"));
+        } catch (IOException ex) {
+            throw new RuntimeException("Cannot read Background.jpg");
+        }
+
+        try {
+            imageSquare = ImageIO.read(getClass().getResource("square.png"));
+        } catch (IOException ex) {
+            throw new RuntimeException("Cannot read Background.jpg");
+        }
+
+        try {
+            imageMine = ImageIO.read(getClass().getResource("square.png"));
+        } catch (IOException ex) {
+            throw new RuntimeException("Cannot read Background.jpg");
+        }
+        try {
+            imageUncoveredSquare = ImageIO.read(getClass().getResource("uncoveredfield.jpg"));
+        } catch (IOException ex) {
+            throw new RuntimeException("Cannot read Background.jpg");
+        }
+
+        for (int i = 1; i < 9; i++) {
+            
+     
+            try {
+                imageBombCount[i] = ImageIO.read(getClass().getResource(i+".png"));
+            } catch (IOException ex) {
+                throw new RuntimeException("Cannot read Image");
+            }
+        }
+
+    }
 }
