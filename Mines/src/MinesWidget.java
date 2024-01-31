@@ -1,7 +1,11 @@
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 /**
@@ -12,6 +16,8 @@ public class MinesWidget extends JComponent {
     private MinesGame game;
     private Point selected;
     private BufferedImage imageFlag;
+    private BufferedImage imageSquare;
+
 
     /**
      * Default widget constructor.
@@ -19,7 +25,9 @@ public class MinesWidget extends JComponent {
      * Creates a default game with 5x5 fields and 4 mines.
      */
     public MinesWidget() {
+        this.game = new MinesGame(5, 5, 4);
     }
+    
 
     /**
      * Constructor for the given (non-null) game.
@@ -27,7 +35,10 @@ public class MinesWidget extends JComponent {
      * @param game
      * @throws NullPointerException if game is null.
      */
-    public MinesWidget(MinesGame game) {
+    public MinesWidget(MinesGame game) throws NullPointerException{
+        if(game == null) throw new NullPointerException("The game is null!");
+        this.game = game;
+        
     }
 
     /**
@@ -40,6 +51,7 @@ public class MinesWidget extends JComponent {
      * @param mines number of mines
      */
     public MinesWidget(int w, int h, int mines) {
+            this.game  = new MinesGame(w,h, mines);
     }
 
     /**
@@ -70,7 +82,9 @@ public class MinesWidget extends JComponent {
      * @param game
      * @throws NullPointerException if game is null.
      */
-    public void setGame(MinesGame game) {
+    public void setGame(MinesGame game)  throws NullPointerException{
+        if(game == null) throw new NullPointerException("The game is null!");
+        this.game = game; 
         
     }
 
@@ -80,9 +94,8 @@ public class MinesWidget extends JComponent {
      * @return MinesGame
      */
     public MinesGame getGame() {
-        throw new UnsupportedOperationException("Funkce ještě není implementována.");
+        return this.game;
     }
-
     /**
      * Draws the game plan.
      *
@@ -95,7 +108,38 @@ public class MinesWidget extends JComponent {
      */
     @Override
     protected void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
+        try {
+            imageFlag= ImageIO.read(getClass().getResource("flag.png"));
+        } catch (IOException ex) {
+            System.err.println("Cannot read Background.jpg");
+        }
+        
+        try {
+            imageSquare= ImageIO.read(getClass().getResource("square.png"));
+        } catch (IOException ex) {
+            System.err.println("Cannot read Background.jpg");
+        }
+        
         super.paintComponent(g);
+        
+        g.setColor(Color.BLACK);
+        MinesPlan plan = game.getPlan();
+        
+        int w = this.getWidth() / plan.getWidth();
+        int h = this.getHeight()/ plan.getHeight();
+        int s = w < h ? w:h;
+        
+        for (int rows = 0; rows < plan.getWidth(); rows++) {
+            for (int col = 0; col < plan.getHeight(); col++) {
+                
+                g.drawRect(rows*s, col*s, s, s);
+                g.fillRect(rows*s, col*s, s, s);
+                g.setColor(Color.DARK_GRAY);
+//                g.drawImage(imageSquare, rows*s,  col*s, s, s, this);
+                
+            }
+        }
     }
     
     /**
@@ -104,6 +148,8 @@ public class MinesWidget extends JComponent {
      * @param y_pix 
      */
     public void selectPosition(int x_pix, int y_pix) {
+        selected.setLocation(x_pix, y_pix);
+        
     }
     
     /**
@@ -113,6 +159,7 @@ public class MinesWidget extends JComponent {
      * @param y_pix 
      */
     public void uncoverPosition(int x_pix, int y_pix) {
+        game.uncover(x_pix, y_pix);
     }
 
     /**
@@ -121,8 +168,11 @@ public class MinesWidget extends JComponent {
      * @param x_pix
      * @param y_pix 
      */
-    public void markingPosition(int x_pix, int y_pix) {
+    public void markingPosition(int x_pix, int y_pix) throws WrongActionException {
+        game.switchMarked(y_pix, y_pix);
+        
     }
+    
     
     /**
      * Returns plan coordinates from pixel position on widget or null.
@@ -132,6 +182,8 @@ public class MinesWidget extends JComponent {
      */
     private Point getCoordsFromPosition(int x_pix, int y_pix) {
         throw new UnsupportedOperationException("Funkce ještě není implementována.");
+        
+
         
     }
     
