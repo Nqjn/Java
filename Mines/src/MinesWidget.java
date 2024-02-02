@@ -17,8 +17,9 @@ public class MinesWidget extends JComponent {
     private Point selected;
     private BufferedImage imageFlag;
     private BufferedImage imageSquare;
-    private BufferedImage imageUncoveredSquare;
+    private BufferedImage imageUnCoveredSquare;
     private BufferedImage imageMine;
+    private BufferedImage imageCoveredSquare;
     private BufferedImage[] imageBombCount = new BufferedImage[9];
 
     /**
@@ -27,7 +28,7 @@ public class MinesWidget extends JComponent {
      * Creates a default game with 5x5 fields and 4 mines.
      */
     public MinesWidget() {
-        this.game = new MinesGame(5, 5, 4);
+        this.game = new MinesGame(10, 10, 7);
     }
 
     /**
@@ -66,6 +67,7 @@ public class MinesWidget extends JComponent {
      * @param cell
      */
     public void setSelected(Point cell) {
+        
 
     }
 
@@ -130,18 +132,24 @@ public class MinesWidget extends JComponent {
             for (int col = 0; col < plan.getHeight(); col++) {
 
                 if (plan.isCoveredAt(rows, col)) {
-                    if (plan.getNumberOfMines(rows, col) != 0) {
-                        g.drawImage(imageSquare, rows * s, col * s, s, s, this);
-
-                    }
+                 
                     g.drawImage(imageSquare, rows * s, col * s, s, s, this);
-                } else {
-                    g.drawImage(imageUncoveredSquare, rows * s, col * s, s, s, this);
 
-                }
+                } if(plan.isCoveredAt(rows, col) && plan.getNumberOfMines(rows, col) != 0) {
+                   
+                    
+                    g.drawImage(imageBombCount[plan.getNumberOfMines(rows, col)], rows * s, col * s, s, s, this);
+                   
 
+                }if(!plan.isCoveredAt(rows, col)){
+                    g.drawImage(imageCoveredSquare, rows * s, col * s, s, s, this);
+                }  
+                 
+                
             }
+
         }
+
     }
 
     /**
@@ -184,14 +192,17 @@ public class MinesWidget extends JComponent {
      * @return Point - plan coordinates or null if position outside of plan
      */
     private Point getCoordsFromPosition(int x_pix, int y_pix) {
-        throw new UnsupportedOperationException("Funkce ještě není implementována.");
+        
+        selected.setLocation(x_pix, y_pix);
+
+        return selected;
 
     }
 
     /**
      * Loads all images into image attributes or throws RuntimeException.
      */
-    private void loadImages()  {
+    private void loadImages() {
 
         try {
             imageFlag = ImageIO.read(getClass().getResource("flag.png"));
@@ -205,22 +216,20 @@ public class MinesWidget extends JComponent {
             throw new RuntimeException("Cannot read Background.jpg");
         }
 
+        
+        
         try {
-            imageMine = ImageIO.read(getClass().getResource("square.png"));
+            imageCoveredSquare = ImageIO.read(getClass().getResource("coveredfield.png"));
         } catch (IOException ex) {
             throw new RuntimeException("Cannot read Background.jpg");
         }
-        try {
-            imageUncoveredSquare = ImageIO.read(getClass().getResource("uncoveredfield.jpg"));
-        } catch (IOException ex) {
-            throw new RuntimeException("Cannot read Background.jpg");
-        }
+        
+      
 
         for (int i = 1; i < 9; i++) {
-            
-     
+
             try {
-                imageBombCount[i] = ImageIO.read(getClass().getResource(i+".png"));
+                imageBombCount[i] = ImageIO.read(getClass().getResource(i + ".png"));
             } catch (IOException ex) {
                 throw new RuntimeException("Cannot read Image");
             }

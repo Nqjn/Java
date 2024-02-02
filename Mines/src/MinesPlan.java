@@ -150,15 +150,6 @@ public class MinesPlan {
         }
         
         
-        System.out.println(this.hidden[y][x] + "  this is isCoveredAt");
-        for (int i = 0; i < getHeight(); i++) {
-            for (int j = 0; j < getWidth(); j++) {
-                System.out.print(this.hidden[i][j] + " ");
-
-            }
-               System.out.println("");
-
-        }
         
         return this.hidden[y][x] ;
     }
