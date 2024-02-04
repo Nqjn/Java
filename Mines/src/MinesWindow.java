@@ -8,12 +8,15 @@
  * @author PC
  */
 public class MinesWindow extends javax.swing.JFrame {
+    private final MinesGame game;
 
     /**
      * Creates new form MinesWindow
      */
     public MinesWindow() {
         initComponents();
+        game  = new MinesGame(16,16,40);
+        minesWidget1.setGame(game);
     }
 
     /**
@@ -28,6 +31,12 @@ public class MinesWindow extends javax.swing.JFrame {
         minesWidget1 = new MinesWidget();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        minesWidget1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                minesWidget1MouseReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -48,6 +57,19 @@ public class MinesWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void minesWidget1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minesWidget1MouseReleased
+        // TODO add your handling code here:
+        int w  = minesWidget1.getWidth()  / game.getPlan().getWidth();
+        int h = minesWidget1.getHeight() / game.getPlan().getHeight();
+        int s = w <h ?w :h;
+        
+        int rows = evt.getX()/s;
+        int col = evt.getY()/s;
+        
+       game.uncover(rows, col);
+       minesWidget1.repaint();
+    }//GEN-LAST:event_minesWidget1MouseReleased
 
     /**
      * @param args the command line arguments

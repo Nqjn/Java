@@ -26,7 +26,7 @@ public class MinesWidget extends JComponent {
      * Creates a default game with 5x5 fields and 4 mines.
      */
     public MinesWidget() {
-        this.game = new MinesGame(10, 10, 10);
+        this.game = new MinesGame(5, 5,4);
     }
 
     /**

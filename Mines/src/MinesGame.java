@@ -192,6 +192,10 @@ public class MinesGame {
             return;
         }
         
+        if (plan.getNumberOfMines(x, y) > 0) {
+            plan.uncover(x,y);
+            return;
+        }
   
         
         plan.uncover(x, y);
