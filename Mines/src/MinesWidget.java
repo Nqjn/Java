@@ -1,4 +1,3 @@
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -67,6 +66,9 @@ public class MinesWidget extends JComponent {
      */
     public void setSelected(Point cell) {
 
+        setLocation(cell);
+        
+
     }
 
     /**
@@ -75,7 +77,8 @@ public class MinesWidget extends JComponent {
      * @return Point
      */
     public Point getSelected() {
-        throw new UnsupportedOperationException("Funkce ještě není implementována.");
+        return selected;
+       
 
     }
 
@@ -133,8 +136,16 @@ public class MinesWidget extends JComponent {
 
                     g.drawImage(imageSquare, rows * s, col * s, s, s, this);
 
+
+                } if(!plan.isCoveredAt(rows, col) && plan.getNumberOfMines(rows, col) != 0) {
+                   
+                    
+                    g.drawImage(imageBombCount[plan.getNumberOfMines(rows, col)], rows * s, col * s, s, s, this);
+                   
+
                 }
                 if (!plan.isCoveredAt(rows, col)) {
+
 
                     g.drawImage(imageBombCount[plan.getNumberOfMines(rows, col)], rows * s, col * s, s, s, this);
 
@@ -199,13 +210,13 @@ public class MinesWidget extends JComponent {
     private void loadImages() {
 
         try {
-            imageFlag = ImageIO.read(getClass().getResource("flag.png"));
+            imageFlag = ImageIO.read(getClass().getResource("numbers/flag.png"));
         } catch (IOException ex) {
             throw new RuntimeException("Cannot read Background.jpg");
         }
 
         try {
-            imageSquare = ImageIO.read(getClass().getResource("square.png"));
+            imageSquare = ImageIO.read(getClass().getResource("numbers/square.png"));
         } catch (IOException ex) {
             throw new RuntimeException("Cannot read Background.jpg");
         }
@@ -214,7 +225,7 @@ public class MinesWidget extends JComponent {
         for (int i = 0; i < 9; i++) {
 
             try {
-                imageBombCount[i] = ImageIO.read(getClass().getResource(i + ".png"));
+                imageBombCount[i] = ImageIO.read(getClass().getResource("numbers/" + i + ".png"));
             } catch (IOException ex) {
                 throw new RuntimeException("Cannot read Image");
             }
