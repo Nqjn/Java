@@ -15,7 +15,7 @@ public class MinesWindow extends javax.swing.JFrame {
      */
     public MinesWindow() {
         initComponents();
-        game  = new MinesGame(16,16,40);
+        game  = new MinesGame(10,10,6);
         minesWidget1.setGame(game);
     }
 
@@ -33,6 +33,9 @@ public class MinesWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         minesWidget1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                minesWidget1MouseClicked(evt);
+            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 minesWidget1MouseReleased(evt);
             }
@@ -60,7 +63,12 @@ public class MinesWindow extends javax.swing.JFrame {
 
     private void minesWidget1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minesWidget1MouseReleased
         // TODO add your handling code here:
-        int w  = minesWidget1.getWidth()  / game.getPlan().getWidth();
+        
+    }//GEN-LAST:event_minesWidget1MouseReleased
+
+    private void minesWidget1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minesWidget1MouseClicked
+        // TODO add your handling code here:
+         int w  = minesWidget1.getWidth()  / game.getPlan().getWidth();
         int h = minesWidget1.getHeight() / game.getPlan().getHeight();
         int s = w <h ?w :h;
         
@@ -69,7 +77,7 @@ public class MinesWindow extends javax.swing.JFrame {
         
        game.uncover(rows, col);
        minesWidget1.repaint();
-    }//GEN-LAST:event_minesWidget1MouseReleased
+    }//GEN-LAST:event_minesWidget1MouseClicked
 
     /**
      * @param args the command line arguments

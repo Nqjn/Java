@@ -43,6 +43,7 @@
   <SubComponents>
     <Container class="MinesWidget" name="minesWidget1">
       <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="minesWidget1MouseClicked"/>
         <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="minesWidget1MouseReleased"/>
       </Events>
 
