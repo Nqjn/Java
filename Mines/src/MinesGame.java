@@ -15,6 +15,7 @@ public class MinesGame {
     static int STATE_PLAYING = 1;
     static int STATE_EXPLODED = 2;
     static int STATE_DONE = 3;
+    int counter = 0; 
     Random rand = new Random();
 
     /**
@@ -136,12 +137,11 @@ public class MinesGame {
         if (x < 0 || x >= plan.getWidth() || y < 0 || y >= plan.getHeight()) {
             throw new BadCoordsException("out of bound x:" + x + "y:" + y);
 
-        }
+        
 
-        if (plan.isMarkedAt(x, y)) {
-            return;
+        
         }
-        if (plan.isMineAt(x, y)) {
+        if (plan.isMineAt(x, y) || plan.isMarkedAt(x, y)) {
             return;
 
         }
@@ -154,11 +154,13 @@ public class MinesGame {
 
         }
 
+ 
+
     }
 
     /**
      * Recursive method for uncovering fields in the vicinity of the free field.
-     *
+     *  
      * It does nothing if the field is uncovered or marked or off the game plan.
      * It uncovers the field and recursively starts uncovering in the
      * surrounding eight fields if there are no mines in the vicinity. It only
@@ -173,7 +175,7 @@ public class MinesGame {
             return;
         }
 
-        if (!plan.isCoveredAt(x, y) || plan.isMineAt(x, y)) {
+        if (!plan.isCoveredAt(x, y)) {
             return;
         }
 
@@ -188,12 +190,20 @@ public class MinesGame {
             for (int j = -1; j <= 1; j++) {
                 int newX = x + j;
                 int newY = y + i;
-                uncoverZero(newX, newY);
+                
+                if (x != 0 & y != 0) {
+                    counter += 1;
+                    uncoverZero(newX, newY);
+                }
+                
 
             }
         }
+        System.out.println(counter);
 
     }
+   
+   
 
     /**
      * Randomly place a given number of mines in the covered fields in the plan.

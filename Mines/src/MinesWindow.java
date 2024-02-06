@@ -40,6 +40,11 @@ public class MinesWindow extends javax.swing.JFrame {
                 minesWidget1MouseReleased(evt);
             }
         });
+        minesWidget1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                minesWidget1KeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -76,8 +81,15 @@ public class MinesWindow extends javax.swing.JFrame {
         int col = evt.getY()/s;
         
        game.uncover(rows, col);
+        System.out.println("Start");
        minesWidget1.repaint();
+        System.out.println("End");
     }//GEN-LAST:event_minesWidget1MouseClicked
+
+    private void minesWidget1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_minesWidget1KeyPressed
+        // TODO add your handling code here:
+        System.out.println("lol");
+    }//GEN-LAST:event_minesWidget1KeyPressed
 
     /**
      * @param args the command line arguments

@@ -117,7 +117,7 @@ public class MinesWidget extends JComponent {
      */
     @Override
     protected void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
+       
         loadImages();
 
         super.paintComponent(g);
@@ -137,19 +137,14 @@ public class MinesWidget extends JComponent {
                     g.drawImage(imageSquare, rows * s, col * s, s, s, this);
 
 
-                } if(!plan.isCoveredAt(rows, col) && plan.getNumberOfMines(rows, col) != 0) {
+                } if(!plan.isCoveredAt(rows, col)){
                    
                     
                     g.drawImage(imageBombCount[plan.getNumberOfMines(rows, col)], rows * s, col * s, s, s, this);
                    
 
                 }
-                if (!plan.isCoveredAt(rows, col)) {
-
-
-                    g.drawImage(imageBombCount[plan.getNumberOfMines(rows, col)], rows * s, col * s, s, s, this);
-
-                }
+                
       
             }
 

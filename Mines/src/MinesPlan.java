@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class MinesPlan {
 
     private boolean[][] mines;
-    private boolean[][] hidden;
+    public boolean[][] hidden;
     private boolean[][] marked;
     private int width;
     private int height;
