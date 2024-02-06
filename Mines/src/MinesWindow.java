@@ -40,11 +40,6 @@ public class MinesWindow extends javax.swing.JFrame {
                 minesWidget1MouseReleased(evt);
             }
         });
-        minesWidget1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                minesWidget1KeyPressed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -82,14 +77,12 @@ public class MinesWindow extends javax.swing.JFrame {
         
        game.uncover(rows, col);
         System.out.println("Start");
+        
+       
        minesWidget1.repaint();
+//       minesWidget1.update(minesWidget1.getGraphics());
         System.out.println("End");
     }//GEN-LAST:event_minesWidget1MouseClicked
-
-    private void minesWidget1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_minesWidget1KeyPressed
-        // TODO add your handling code here:
-        System.out.println("lol");
-    }//GEN-LAST:event_minesWidget1KeyPressed
 
     /**
      * @param args the command line arguments
@@ -119,10 +112,8 @@ public class MinesWindow extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MinesWindow().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MinesWindow().setVisible(true);
         });
     }
 

@@ -175,7 +175,7 @@ public class MinesGame {
             return;
         }
 
-        if (!plan.isCoveredAt(x, y)) {
+        if (!plan.isCoveredAt(x, y) || plan.isMineAt(x, y)) {
             return;
         }
 
