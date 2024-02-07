@@ -131,6 +131,7 @@ public class MinesWidget extends JComponent {
 
         for (int rows = 0; rows < plan.getWidth(); rows++) {
             for (int col = 0; col < plan.getHeight(); col++) {
+                
 
                 if (plan.isCoveredAt(rows, col)) {
 
@@ -143,6 +144,10 @@ public class MinesWidget extends JComponent {
                     g.drawImage(imageBombCount[plan.getNumberOfMines(rows, col)], rows * s, col * s, s, s, this);
                    
 
+                }
+                if(plan.isMarkedAt(rows, col) && plan.isCoveredAt(rows, col)){
+                   g.drawImage(imageFlag, rows * s, col * s, s, s, this);
+                
                 }
                 
       

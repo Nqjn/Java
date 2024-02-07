@@ -1,3 +1,8 @@
+
+import java.awt.event.MouseEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -9,6 +14,7 @@
  */
 public class MinesWindow extends javax.swing.JFrame {
     private final MinesGame game;
+    int l = 0;
 
     /**
      * Creates new form MinesWindow
@@ -28,7 +34,9 @@ public class MinesWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         minesWidget1 = new MinesWidget();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -40,15 +48,22 @@ public class MinesWindow extends javax.swing.JFrame {
                 minesWidget1MouseReleased(evt);
             }
         });
+        minesWidget1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                minesWidget1KeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(39, Short.MAX_VALUE)
-                .addComponent(minesWidget1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39))
+                .addContainerGap()
+                .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(minesWidget1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -56,6 +71,10 @@ public class MinesWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(minesWidget1, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(150, 150, 150)
+                .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -68,21 +87,40 @@ public class MinesWindow extends javax.swing.JFrame {
 
     private void minesWidget1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minesWidget1MouseClicked
         // TODO add your handling code here:
-         int w  = minesWidget1.getWidth()  / game.getPlan().getWidth();
+        int w  = minesWidget1.getWidth()  / game.getPlan().getWidth();
         int h = minesWidget1.getHeight() / game.getPlan().getHeight();
         int s = w <h ?w :h;
         
         int rows = evt.getX()/s;
         int col = evt.getY()/s;
         
-       game.uncover(rows, col);
-        System.out.println("Start");
+        if (evt.getButton() == MouseEvent.BUTTON1) {
+            game.uncover(rows, col);
+        }
+         
+        if (evt.getButton() == MouseEvent.BUTTON3) {
+            try {
+                game.switchMarked(rows, col);
+            } catch (WrongActionException ex) {
+                System.err.println("wrong rows and col or the field is already uncovered!");
+            }
+        }
+        
+        
+       
+       
+        System.out.println("Start" + Integer.toString(l++));
         
        
        minesWidget1.repaint();
 //       minesWidget1.update(minesWidget1.getGraphics());
-        System.out.println("End");
+        System.out.println("End"+ Integer.toString(l++));
     }//GEN-LAST:event_minesWidget1MouseClicked
+
+    private void minesWidget1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_minesWidget1KeyPressed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_minesWidget1KeyPressed
 
     /**
      * @param args the command line arguments
@@ -118,6 +156,8 @@ public class MinesWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
     private MinesWidget minesWidget1;
     // End of variables declaration//GEN-END:variables
 }
