@@ -15,7 +15,8 @@ public class MinesGame {
     static int STATE_PLAYING = 1;
     static int STATE_EXPLODED = 2;
     static int STATE_DONE = 3;
-    int counter = 0; 
+
+    int counter = 0;
     Random rand = new Random();
 
     /**
@@ -79,21 +80,31 @@ public class MinesGame {
      * @retval STATE_DONE Player has uncovered all squares without mines
      */
     public int getState() {
-
-        for (int i = 0; i < plan.getWidth(); i++) {
+                 for (int i = 0; i < plan.getWidth(); i++) {
             for (int j = 0; j < plan.getHeight(); j++) {
-                if (plan.isMineAt(i, j) && !plan.isCoveredAt(i, j)) {
+                if (plan.isMineAt(i, j) && !plan.isCoveredAt(i,j )) {
                     return STATE_EXPLODED;
 
-                } else {
+
+                }
+            }
+
+        }
+
+       for (int i = 0; i < plan.getWidth(); i++) {
+            for (int j = 0; j < plan.getHeight(); j++) {
+                if (!plan.isMineAt(i, j) && plan.isCoveredAt(i,j )) {
                     return STATE_PLAYING;
+
 
                 }
 
             }
 
         }
-        return STATE_DONE;
+       return STATE_DONE;
+
+        
     }
 
     /**
@@ -137,13 +148,14 @@ public class MinesGame {
         if (x < 0 || x >= plan.getWidth() || y < 0 || y >= plan.getHeight()) {
             throw new BadCoordsException("out of bound x:" + x + "y:" + y);
 
-        
-
-        
         }
-        if (plan.isMineAt(x, y) || plan.isMarkedAt(x, y)) {
+        if (plan.isMarkedAt(x, y)) {
             return;
 
+        }
+
+        if (plan.isMineAt(x, y)) {
+            plan.uncover(x, y);
         }
 
         if (plan.getNumberOfMines(x, y) == 0) {
@@ -154,13 +166,11 @@ public class MinesGame {
 
         }
 
- 
-
     }
 
     /**
      * Recursive method for uncovering fields in the vicinity of the free field.
-     *  
+     *
      * It does nothing if the field is uncovered or marked or off the game plan.
      * It uncovers the field and recursively starts uncovering in the
      * surrounding eight fields if there are no mines in the vicinity. It only
@@ -190,20 +200,15 @@ public class MinesGame {
             for (int j = -1; j <= 1; j++) {
                 int newX = x + j;
                 int newY = y + i;
-                
-                if (x != 0 & y != 0) {
-                    counter += 1;
-                    uncoverZero(newX, newY);
-                }
-                
+
+                counter += 1;
+                uncoverZero(newX, newY);
 
             }
         }
         System.out.println(counter);
 
     }
-   
-   
 
     /**
      * Randomly place a given number of mines in the covered fields in the plan.

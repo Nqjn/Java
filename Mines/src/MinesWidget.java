@@ -18,6 +18,8 @@ public class MinesWidget extends JComponent {
     private BufferedImage imageSquare;
     private BufferedImage imageUnCoveredSquare;
     private BufferedImage imageMine;
+    private BufferedImage imageFace;
+    
     private BufferedImage[] imageBombCount = new BufferedImage[9];
 
     /**
@@ -128,9 +130,15 @@ public class MinesWidget extends JComponent {
         int w = this.getWidth() / plan.getWidth();
         int h = this.getHeight() / plan.getHeight();
         int s = w < h ? w : h;
-
+        
+          
+        
+        g.drawImage(imageFace, (this.getWidth() - s) / 2 , 0, s, s, this);
+        
         for (int rows = 0; rows < plan.getWidth(); rows++) {
             for (int col = 0; col < plan.getHeight(); col++) {
+                
+             
                 
 
                 if (plan.isCoveredAt(rows, col)) {
@@ -138,7 +146,7 @@ public class MinesWidget extends JComponent {
                     g.drawImage(imageSquare, rows * s, col * s, s, s, this);
 
 
-                } if(!plan.isCoveredAt(rows, col)){
+                } if(!plan.isCoveredAt(rows, col) && !plan.isMineAt(rows, col)){
                    
                     
                     g.drawImage(imageBombCount[plan.getNumberOfMines(rows, col)], rows * s, col * s, s, s, this);
@@ -150,6 +158,19 @@ public class MinesWidget extends JComponent {
                 
                 }
                 
+                if (!plan.isCoveredAt(rows, col) && plan.isMineAt(rows, col)) {
+                    game.getState();
+                    g.drawImage(imageMine, rows * s, col * s, s, s, this);
+                    
+                }
+                    
+
+                    
+
+
+                
+                
+               
       
             }
 
@@ -217,6 +238,18 @@ public class MinesWidget extends JComponent {
 
         try {
             imageSquare = ImageIO.read(getClass().getResource("numbers/square.png"));
+        } catch (IOException ex) {
+            throw new RuntimeException("Cannot read Background.jpg");
+        }
+        
+        try {
+            imageFace = ImageIO.read(getClass().getResource("numbers/face.png"));
+        } catch (IOException ex) {
+            throw new RuntimeException("Cannot read Background.jpg");
+        }
+        
+        try {
+            imageMine = ImageIO.read(getClass().getResource("numbers/mine.png"));
         } catch (IOException ex) {
             throw new RuntimeException("Cannot read Background.jpg");
         }
