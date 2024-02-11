@@ -96,20 +96,22 @@ public class MinesWindow extends javax.swing.JFrame {
         int rows = evt.getX()/s;
         int col = evt.getY()/s;
         
+        minesWidget1.selectPosition(rows, col);
+        
+        
         if (evt.getButton() == MouseEvent.BUTTON1) {
             if (game.getPlan().isMineAt(rows, col)) {
-                game.uncover(rows, col);
-                game.getState();
+              minesWidget1.uncoverPosition(rows, col);
                 game.getPlan().uncoverAll();
                 
             }else{
-            game.uncover(rows, col);
+            minesWidget1.uncoverPosition(rows, col);
             }
         }
          
         if (evt.getButton() == MouseEvent.BUTTON3) {
             try {
-                game.switchMarked(rows, col);
+                minesWidget1.markingPosition(rows, col);
             } catch (WrongActionException ex) {
                 System.err.println("wrong rows and col or the field is already uncovered!");
             }

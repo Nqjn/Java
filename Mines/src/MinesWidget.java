@@ -13,13 +13,14 @@ import javax.swing.JComponent;
 public class MinesWidget extends JComponent {
 
     private MinesGame game;
-    private Point selected;
+    private Point selected = new Point();
     private BufferedImage imageFlag;
     private BufferedImage imageSquare;
     private BufferedImage imageUnCoveredSquare;
     private BufferedImage imageMine;
+    private BufferedImage imageExplodedMine;
     private BufferedImage imageFace;
-    int s;
+    
     
     private BufferedImage[] imageBombCount = new BufferedImage[9];
 
@@ -131,11 +132,11 @@ public class MinesWidget extends JComponent {
 
         int w = this.getWidth() / plan.getWidth();
         int h = this.getHeight() / plan.getHeight();
-        s = w < h ? w : h;
+        int s = w < h ? w : h;
         
           
         
-        g.drawImage(imageFace, (this.getWidth() - s) / 2 , 0, s, s, this);
+        g.drawImage(imageFace, (this.getWidth() ) / 2 , 0, s, s, this);
         
         for (int rows = 0; rows < plan.getWidth(); rows++) {
             for (int col = 0; col < plan.getHeight(); col++) {
@@ -162,7 +163,12 @@ public class MinesWidget extends JComponent {
                 
                 if (!plan.isCoveredAt(rows, col) && plan.isMineAt(rows, col)) {
                     game.getState();
+                    if (selected.getX() == rows && selected.getY() == col) {
+                        g.drawImage(imageExplodedMine, rows * s, col * s, s, s, this);
+                    }else{
                     g.drawImage(imageMine, rows * s, col * s, s, s, this);
+                    }
+                    
                     
                 }
                     
@@ -188,7 +194,8 @@ public class MinesWidget extends JComponent {
      */
     public void selectPosition(int x_pix, int y_pix) {
         
-        selected.setLocation(x_pix/s, y_pix/s);
+       
+        selected.setLocation(x_pix, y_pix);
 
     }
 
@@ -199,7 +206,7 @@ public class MinesWidget extends JComponent {
      * @param y_pix
      */
     public void uncoverPosition(int x_pix, int y_pix) {
-        game.uncover(x_pix/s, y_pix/s);
+        game.uncover(x_pix, y_pix);
     }
 
     /**
@@ -209,7 +216,7 @@ public class MinesWidget extends JComponent {
      * @param y_pix
      */
     public void markingPosition(int x_pix, int y_pix) throws WrongActionException {
-        game.switchMarked(y_pix/s, y_pix/s);
+        game.switchMarked(y_pix, y_pix);
 
     }
 
@@ -222,7 +229,7 @@ public class MinesWidget extends JComponent {
      */
     private Point getCoordsFromPosition(int x_pix, int y_pix) {
 
-        selected.setLocation(x_pix/s, y_pix/s);
+        selected.setLocation(x_pix, y_pix);
 
         return selected;
 
@@ -253,6 +260,12 @@ public class MinesWidget extends JComponent {
         
         try {
             imageMine = ImageIO.read(getClass().getResource("numbers/mine.png"));
+        } catch (IOException ex) {
+            throw new RuntimeException("Cannot read Background.jpg");
+        }
+        
+        try {
+            imageExplodedMine = ImageIO.read(getClass().getResource("numbers/explodedmine.jpg"));
         } catch (IOException ex) {
             throw new RuntimeException("Cannot read Background.jpg");
         }
