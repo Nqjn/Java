@@ -216,7 +216,7 @@ public class MinesWidget extends JComponent {
      * @param y_pix
      */
     public void markingPosition(int x_pix, int y_pix) throws WrongActionException {
-        game.switchMarked(y_pix, y_pix);
+        game.switchMarked(x_pix, y_pix);
 
     }
 
