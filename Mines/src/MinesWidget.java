@@ -19,6 +19,7 @@ public class MinesWidget extends JComponent {
     private BufferedImage imageUnCoveredSquare;
     private BufferedImage imageMine;
     private BufferedImage imageFace;
+    int s;
     
     private BufferedImage[] imageBombCount = new BufferedImage[9];
 
@@ -28,7 +29,7 @@ public class MinesWidget extends JComponent {
      * Creates a default game with 5x5 fields and 4 mines.
      */
     public MinesWidget() {
-        this.game = new MinesGame(5, 5,4);
+        this.game = new MinesGame(16, 16,40);
     }
 
     /**
@@ -67,6 +68,7 @@ public class MinesWidget extends JComponent {
      * @param cell
      */
     public void setSelected(Point cell) {
+        
 
         setLocation(cell);
         
@@ -129,7 +131,7 @@ public class MinesWidget extends JComponent {
 
         int w = this.getWidth() / plan.getWidth();
         int h = this.getHeight() / plan.getHeight();
-        int s = w < h ? w : h;
+        s = w < h ? w : h;
         
           
         
@@ -185,7 +187,8 @@ public class MinesWidget extends JComponent {
      * @param y_pix
      */
     public void selectPosition(int x_pix, int y_pix) {
-        selected.setLocation(x_pix, y_pix);
+        
+        selected.setLocation(x_pix/s, y_pix/s);
 
     }
 
@@ -196,7 +199,7 @@ public class MinesWidget extends JComponent {
      * @param y_pix
      */
     public void uncoverPosition(int x_pix, int y_pix) {
-        game.uncover(x_pix, y_pix);
+        game.uncover(x_pix/s, y_pix/s);
     }
 
     /**
@@ -206,7 +209,7 @@ public class MinesWidget extends JComponent {
      * @param y_pix
      */
     public void markingPosition(int x_pix, int y_pix) throws WrongActionException {
-        game.switchMarked(y_pix, y_pix);
+        game.switchMarked(y_pix/s, y_pix/s);
 
     }
 
@@ -219,7 +222,7 @@ public class MinesWidget extends JComponent {
      */
     private Point getCoordsFromPosition(int x_pix, int y_pix) {
 
-        selected.setLocation(x_pix, y_pix);
+        selected.setLocation(x_pix/s, y_pix/s);
 
         return selected;
 

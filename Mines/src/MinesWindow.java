@@ -21,7 +21,7 @@ public class MinesWindow extends javax.swing.JFrame {
      */
     public MinesWindow() {
         initComponents();
-        game  = new MinesGame(10,10,6);
+        game  = new MinesGame(10,10,5);
         minesWidget1.setGame(game);
     }
 
