@@ -136,7 +136,7 @@ public class MinesWidget extends JComponent {
         
           
         
-        g.drawImage(imageFace, (this.getWidth() ) / 2 , 0, s, s, this);
+       
         
         for (int rows = 0; rows < plan.getWidth(); rows++) {
             for (int col = 0; col < plan.getHeight(); col++) {
