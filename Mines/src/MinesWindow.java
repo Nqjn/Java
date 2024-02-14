@@ -52,9 +52,10 @@ public class MinesWindow extends javax.swing.JFrame {
         noob = new javax.swing.JLabel();
         play = new javax.swing.JPanel();
         minesWidget1 = new MinesWidget();
-        menuBtn = new javax.swing.JButton();
         scoreLabel = new javax.swing.JLabel();
-        restartBtn = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        menuBar = new javax.swing.JMenu();
+        restartBar = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -126,7 +127,7 @@ public class MinesWindow extends javax.swing.JFrame {
                     .addGroup(menuLayout.createSequentialGroup()
                         .addGap(82, 82, 82)
                         .addComponent(intermediate)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addComponent(pro)
                 .addGap(15, 15, 15))
         );
@@ -146,7 +147,7 @@ public class MinesWindow extends javax.swing.JFrame {
                             .addComponent(widthField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(heightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(minesField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
                         .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(intermediate, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(pro, javax.swing.GroupLayout.Alignment.TRAILING)))
@@ -159,6 +160,7 @@ public class MinesWindow extends javax.swing.JFrame {
         backgroundpanel.add(menu, "card2");
 
         play.setBackground(new java.awt.Color(255, 255, 255));
+        play.setLayout(new java.awt.BorderLayout());
 
         minesWidget1.setBackground(new java.awt.Color(255, 255, 255));
         minesWidget1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -167,54 +169,33 @@ public class MinesWindow extends javax.swing.JFrame {
             }
         });
 
-        menuBtn.setText("Menu");
-        menuBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuBtnActionPerformed(evt);
-            }
-        });
-
         scoreLabel.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         scoreLabel.setForeground(new java.awt.Color(255, 0, 0));
+        scoreLabel.setText("playing");
+        minesWidget1.add(scoreLabel);
+        scoreLabel.setBounds(700, 10, 90, 32);
 
-        restartBtn.setText("Restart");
-        restartBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                restartBtnActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout playLayout = new javax.swing.GroupLayout(play);
-        play.setLayout(playLayout);
-        playLayout.setHorizontalGroup(
-            playLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(playLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(playLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(menuBtn)
-                    .addComponent(restartBtn))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
-                .addComponent(scoreLabel)
-                .addGap(135, 135, 135)
-                .addComponent(minesWidget1, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
-        );
-        playLayout.setVerticalGroup(
-            playLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, playLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(playLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(menuBtn)
-                    .addComponent(scoreLabel, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(16, 16, 16)
-                .addComponent(restartBtn)
-                .addContainerGap(365, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, playLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(minesWidget1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        play.add(minesWidget1, java.awt.BorderLayout.CENTER);
 
         backgroundpanel.add(play, "card3");
+
+        menuBar.setText("Menu");
+        menuBar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuBarMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(menuBar);
+
+        restartBar.setText("Restart");
+        restartBar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                restartBarMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(restartBar);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -230,15 +211,9 @@ public class MinesWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void menuBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBtnActionPerformed
-        play.setVisible(false);
-        menu.setVisible(true);
-
-    }//GEN-LAST:event_menuBtnActionPerformed
-
     private void minesWidget1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minesWidget1MouseClicked
-        int w = minesWidget1.getWidth() / game.getPlan().getWidth();
-        int h = minesWidget1.getHeight() / game.getPlan().getHeight();
+        int w = minesWidget1.getWidth() /minesWidget1.getGame().getPlan().getWidth();
+        int h = minesWidget1.getHeight() / minesWidget1.getGame().getPlan().getHeight();
         int s = w < h ? w : h;
 
         int rows = evt.getX() / s;
@@ -247,16 +222,22 @@ public class MinesWindow extends javax.swing.JFrame {
         minesWidget1.selectPosition(rows, col);
 
         if (evt.getButton() == MouseEvent.BUTTON1) {
-            if (game.getState() == 1) {
-                if (game.getPlan().isMineAt(rows, col) && !game.getPlan().isMarkedAt(rows, col)) {
-                    scoreLabel.setText("You have lost!");
+            if (minesWidget1.getGame().getState() == 1) {
+                if (minesWidget1.getGame().getPlan().isMineAt(rows, col) && !minesWidget1.getGame().getPlan().isMarkedAt(rows, col)) {
+//                    scoreLabel.setText("You have lost!");
+                    
                     minesWidget1.uncoverPosition(rows, col);
-                    game.getPlan().uncoverAll();
-
+                    minesWidget1.getGame().getPlan().uncoverAll();
+                    minesWidget1.repaint();
+                    JOptionPane.showMessageDialog(null, "You have lost!", "Mines", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     minesWidget1.uncoverPosition(rows, col);
-                    if (game.getState() == 3) {
-                        scoreLabel.setText("You have won!");
+                    if (minesWidget1.getGame().getState() == 3) {
+                            minesWidget1.uncoverPosition(rows, col);
+                            minesWidget1.getGame().getPlan().uncoverAll();
+                            minesWidget1.repaint();
+                        JOptionPane.showMessageDialog(null, "You have won!", "Mines", JOptionPane.INFORMATION_MESSAGE);
+//                        scoreLabel.setText("You have won!");
                     }
                 }
             } else {
@@ -274,19 +255,12 @@ public class MinesWindow extends javax.swing.JFrame {
         
 
         System.out.println("Start" + Integer.toString(l++));
-        System.out.println(game.getState());
+        System.out.println(minesWidget1.getGame().getState());
 
         minesWidget1.repaint();
 //       minesWidget1.update(minesWidget1.getGraphics());
         System.out.println("End" + Integer.toString(l++));
     }//GEN-LAST:event_minesWidget1MouseClicked
-
-    private void restartBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restartBtnActionPerformed
-        game = new MinesGame(w, h, mines);
-        minesWidget1.setGame(game);
-        minesWidget1.repaint();
-        scoreLabel.setText("");
-    }//GEN-LAST:event_restartBtnActionPerformed
 
     private void enterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterBtnActionPerformed
 
@@ -341,6 +315,19 @@ public class MinesWindow extends javax.swing.JFrame {
         play.setVisible(true);
     }//GEN-LAST:event_proMouseClicked
 
+    private void menuBarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuBarMouseClicked
+        play.setVisible(false);
+        menu.setVisible(true);
+        scoreLabel.setText("");
+    }//GEN-LAST:event_menuBarMouseClicked
+
+    private void restartBarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_restartBarMouseClicked
+        game = new MinesGame(w, h, mines);
+        minesWidget1.setGame(game);
+        minesWidget1.repaint();
+        scoreLabel.setText("");
+    }//GEN-LAST:event_restartBarMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -383,14 +370,15 @@ public class MinesWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel menu;
-    private javax.swing.JButton menuBtn;
+    private javax.swing.JMenu menuBar;
     private javax.swing.JTextField minesField;
     private MinesWidget minesWidget1;
     private javax.swing.JLabel noob;
     private javax.swing.JPanel play;
     private javax.swing.JLabel pro;
-    private javax.swing.JButton restartBtn;
+    private javax.swing.JMenu restartBar;
     private javax.swing.JLabel scoreLabel;
     private javax.swing.JTextField widthField;
     // End of variables declaration//GEN-END:variables
