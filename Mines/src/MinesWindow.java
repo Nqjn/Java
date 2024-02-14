@@ -52,7 +52,6 @@ public class MinesWindow extends javax.swing.JFrame {
         noob = new javax.swing.JLabel();
         play = new javax.swing.JPanel();
         minesWidget1 = new MinesWidget();
-        scoreLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuBar = new javax.swing.JMenu();
         restartBar = new javax.swing.JMenu();
@@ -168,13 +167,6 @@ public class MinesWindow extends javax.swing.JFrame {
                 minesWidget1MouseClicked(evt);
             }
         });
-
-        scoreLabel.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
-        scoreLabel.setForeground(new java.awt.Color(255, 0, 0));
-        scoreLabel.setText("playing");
-        minesWidget1.add(scoreLabel);
-        scoreLabel.setBounds(700, 10, 90, 32);
-
         play.add(minesWidget1, java.awt.BorderLayout.CENTER);
 
         backgroundpanel.add(play, "card3");
@@ -224,8 +216,7 @@ public class MinesWindow extends javax.swing.JFrame {
         if (evt.getButton() == MouseEvent.BUTTON1) {
             if (minesWidget1.getGame().getState() == 1) {
                 if (minesWidget1.getGame().getPlan().isMineAt(rows, col) && !minesWidget1.getGame().getPlan().isMarkedAt(rows, col)) {
-//                    scoreLabel.setText("You have lost!");
-                    
+
                     minesWidget1.uncoverPosition(rows, col);
                     minesWidget1.getGame().getPlan().uncoverAll();
                     minesWidget1.repaint();
@@ -237,7 +228,8 @@ public class MinesWindow extends javax.swing.JFrame {
                             minesWidget1.getGame().getPlan().uncoverAll();
                             minesWidget1.repaint();
                         JOptionPane.showMessageDialog(null, "You have won!", "Mines", JOptionPane.INFORMATION_MESSAGE);
-//                        scoreLabel.setText("You have won!");
+
+                        
                     }
                 }
             } else {
@@ -318,14 +310,15 @@ public class MinesWindow extends javax.swing.JFrame {
     private void menuBarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuBarMouseClicked
         play.setVisible(false);
         menu.setVisible(true);
-        scoreLabel.setText("");
+
     }//GEN-LAST:event_menuBarMouseClicked
 
     private void restartBarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_restartBarMouseClicked
         game = new MinesGame(w, h, mines);
         minesWidget1.setGame(game);
         minesWidget1.repaint();
-        scoreLabel.setText("");
+ 
+        
     }//GEN-LAST:event_restartBarMouseClicked
 
     /**
@@ -379,7 +372,6 @@ public class MinesWindow extends javax.swing.JFrame {
     private javax.swing.JPanel play;
     private javax.swing.JLabel pro;
     private javax.swing.JMenu restartBar;
-    private javax.swing.JLabel scoreLabel;
     private javax.swing.JTextField widthField;
     // End of variables declaration//GEN-END:variables
 }
