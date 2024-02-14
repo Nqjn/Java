@@ -8,12 +8,12 @@ import javax.swing.JOptionPane;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author PC
  */
 public class MinesWindow extends javax.swing.JFrame {
+
     private MinesGame game;
     int l = 0;
     int w;
@@ -25,8 +25,6 @@ public class MinesWindow extends javax.swing.JFrame {
      */
     public MinesWindow() {
         initComponents();
-        
-
 
     }
 
@@ -49,6 +47,9 @@ public class MinesWindow extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        intermediate = new javax.swing.JLabel();
+        pro = new javax.swing.JLabel();
+        noob = new javax.swing.JLabel();
         play = new javax.swing.JPanel();
         minesWidget1 = new MinesWidget();
         menuBtn = new javax.swing.JButton();
@@ -58,6 +59,8 @@ public class MinesWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         backgroundpanel.setLayout(new java.awt.CardLayout());
+
+        menu.setBackground(new java.awt.Color(255, 255, 255));
 
         enterBtn.setText("Enter");
         enterBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -72,50 +75,92 @@ public class MinesWindow extends javax.swing.JFrame {
 
         jLabel3.setText("Number of mines");
 
+        intermediate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/numbers/intermediate.png"))); // NOI18N
+        intermediate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                intermediateMouseClicked(evt);
+            }
+        });
+
+        pro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/numbers/pro.png"))); // NOI18N
+        pro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                proMouseClicked(evt);
+            }
+        });
+
+        noob.setIcon(new javax.swing.ImageIcon(getClass().getResource("/numbers/noob.png"))); // NOI18N
+        noob.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                noobMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
         menu.setLayout(menuLayout);
         menuLayout.setHorizontalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuLayout.createSequentialGroup()
-                .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(161, 161, 161)
+                .addComponent(jLabel1)
+                .addGap(90, 90, 90)
+                .addComponent(jLabel2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(menuLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(menuLayout.createSequentialGroup()
-                        .addGap(22, 22, 22)
                         .addComponent(enterBtn)
                         .addGap(48, 48, 48)
-                        .addComponent(widthField, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(heightField, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addGap(91, 91, 91)
-                        .addComponent(jLabel2)
-                        .addGap(57, 57, 57)))
+                        .addComponent(widthField, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(noob))
                 .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(minesField, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(190, Short.MAX_VALUE))
+                    .addGroup(menuLayout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
+                            .addGroup(menuLayout.createSequentialGroup()
+                                .addComponent(heightField, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(37, 37, 37)
+                                .addComponent(minesField, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(menuLayout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addComponent(intermediate)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                .addComponent(pro)
+                .addGap(15, 15, 15))
         );
         menuLayout.setVerticalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
+                .addContainerGap()
                 .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(enterBtn)
-                    .addComponent(widthField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(heightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(minesField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(376, Short.MAX_VALUE))
+                    .addComponent(jLabel3))
+                .addGap(6, 6, 6)
+                .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(menuLayout.createSequentialGroup()
+                        .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(enterBtn)
+                            .addComponent(widthField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(heightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(minesField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
+                        .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(intermediate, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(pro, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(menuLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(noob)))
+                .addGap(47, 47, 47))
         );
 
         backgroundpanel.add(menu, "card2");
 
+        play.setBackground(new java.awt.Color(255, 255, 255));
+
+        minesWidget1.setBackground(new java.awt.Color(255, 255, 255));
         minesWidget1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 minesWidget1MouseClicked(evt);
@@ -146,16 +191,13 @@ public class MinesWindow extends javax.swing.JFrame {
             .addGroup(playLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(playLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(playLayout.createSequentialGroup()
-                        .addComponent(menuBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(scoreLabel)
-                        .addGap(160, 160, 160))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, playLayout.createSequentialGroup()
-                        .addComponent(restartBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 197, Short.MAX_VALUE)
-                        .addComponent(minesWidget1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(22, 22, 22))))
+                    .addComponent(menuBtn)
+                    .addComponent(restartBtn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
+                .addComponent(scoreLabel)
+                .addGap(135, 135, 135)
+                .addComponent(minesWidget1, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
         );
         playLayout.setVerticalGroup(
             playLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,15 +206,12 @@ public class MinesWindow extends javax.swing.JFrame {
                 .addGroup(playLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(menuBtn)
                     .addComponent(scoreLabel, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGroup(playLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(playLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(minesWidget1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18))
-                    .addGroup(playLayout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(restartBtn)
-                        .addContainerGap(365, Short.MAX_VALUE))))
+                .addGap(16, 16, 16)
+                .addComponent(restartBtn)
+                .addContainerGap(365, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, playLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(minesWidget1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         backgroundpanel.add(play, "card3");
@@ -191,13 +230,71 @@ public class MinesWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void menuBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBtnActionPerformed
+        play.setVisible(false);
+        menu.setVisible(true);
+
+    }//GEN-LAST:event_menuBtnActionPerformed
+
+    private void minesWidget1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minesWidget1MouseClicked
+        int w = minesWidget1.getWidth() / game.getPlan().getWidth();
+        int h = minesWidget1.getHeight() / game.getPlan().getHeight();
+        int s = w < h ? w : h;
+
+        int rows = evt.getX() / s;
+        int col = evt.getY() / s;
+
+        minesWidget1.selectPosition(rows, col);
+
+        if (evt.getButton() == MouseEvent.BUTTON1) {
+            if (game.getState() == 1) {
+                if (game.getPlan().isMineAt(rows, col) && !game.getPlan().isMarkedAt(rows, col)) {
+                    scoreLabel.setText("You have lost!");
+                    minesWidget1.uncoverPosition(rows, col);
+                    game.getPlan().uncoverAll();
+
+                } else {
+                    minesWidget1.uncoverPosition(rows, col);
+                    if (game.getState() == 3) {
+                        scoreLabel.setText("You have won!");
+                    }
+                }
+            } else {
+                return;
+            }
+        }
+
+            if (evt.getButton() == MouseEvent.BUTTON3) {
+                try {
+                    minesWidget1.markingPosition(rows, col);
+                } catch (WrongActionException ex) {
+                    System.err.println("wrong rows and col or the field is already uncovered!");
+                }
+            }
+        
+
+        System.out.println("Start" + Integer.toString(l++));
+        System.out.println(game.getState());
+
+        minesWidget1.repaint();
+//       minesWidget1.update(minesWidget1.getGraphics());
+        System.out.println("End" + Integer.toString(l++));
+    }//GEN-LAST:event_minesWidget1MouseClicked
+
+    private void restartBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restartBtnActionPerformed
+        game = new MinesGame(w, h, mines);
+        minesWidget1.setGame(game);
+        minesWidget1.repaint();
+        scoreLabel.setText("");
+    }//GEN-LAST:event_restartBtnActionPerformed
+
     private void enterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterBtnActionPerformed
 
         w = Integer.parseInt(widthField.getText());
         h = Integer.parseInt(heightField.getText());
         mines = Integer.parseInt(minesField.getText());
-        
-        game  = new MinesGame(w,h,mines);
+
+        game = new MinesGame(w, h, mines);
         minesWidget1.setGame(game);
         widthField.setText("");
         heightField.setText("");
@@ -206,61 +303,43 @@ public class MinesWindow extends javax.swing.JFrame {
         play.setVisible(true);
     }//GEN-LAST:event_enterBtnActionPerformed
 
-    private void menuBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBtnActionPerformed
-        play.setVisible(false);
-        menu.setVisible(true);
-        
-    }//GEN-LAST:event_menuBtnActionPerformed
-
-    private void minesWidget1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minesWidget1MouseClicked
-        int w  = minesWidget1.getWidth()  / game.getPlan().getWidth();
-        int h = minesWidget1.getHeight() / game.getPlan().getHeight();
-        int s = w <h ?w :h;
-        
-        int rows = evt.getX()/s;
-        int col = evt.getY()/s;
-        
-        minesWidget1.selectPosition(rows, col);
-        
-        
-        if (evt.getButton() == MouseEvent.BUTTON1) {
-            if (game.getPlan().isMineAt(rows, col)) {
-              scoreLabel.setText("You have lost!");
-              minesWidget1.uncoverPosition(rows, col);
-              game.getPlan().uncoverAll();
-                
-            }if(game.getState() == 3){
-            scoreLabel.setText("You have won!");
-            }else{
-            minesWidget1.uncoverPosition(rows, col);
-            }
-        }
-         
-        if (evt.getButton() == MouseEvent.BUTTON3) {
-            try {
-                minesWidget1.markingPosition(rows, col);
-            } catch (WrongActionException ex) {
-                System.err.println("wrong rows and col or the field is already uncovered!");
-            }
-        }
-        
-        
-       
-       
-        System.out.println("Start" + Integer.toString(l++));
-        System.out.println(game.getState());
-        
-       
-       minesWidget1.repaint();
-//       minesWidget1.update(minesWidget1.getGraphics());
-        System.out.println("End"+ Integer.toString(l++));
-    }//GEN-LAST:event_minesWidget1MouseClicked
-
-    private void restartBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restartBtnActionPerformed
-        game  = new MinesGame(w,h,mines);
+    private void noobMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_noobMouseClicked
+        game = new MinesGame(9, 9, 10);
+        w = 9;
+        h = 9;
+        mines = 10;
+        game = new MinesGame(w, h, mines);
         minesWidget1.setGame(game);
         minesWidget1.repaint();
-    }//GEN-LAST:event_restartBtnActionPerformed
+        menu.setVisible(false);
+        play.setVisible(true);
+
+
+    }//GEN-LAST:event_noobMouseClicked
+
+    private void intermediateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_intermediateMouseClicked
+
+        w = 16;
+        h = 16;
+        mines = 10;
+        game = new MinesGame(w, h, mines);
+        minesWidget1.setGame(game);
+        minesWidget1.repaint();
+        menu.setVisible(false);
+        play.setVisible(true);
+    }//GEN-LAST:event_intermediateMouseClicked
+
+    private void proMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_proMouseClicked
+
+        w = 30;
+        h = 16;
+        mines = 99;
+        game = new MinesGame(w, h, mines);
+        minesWidget1.setGame(game);
+        minesWidget1.repaint();
+        menu.setVisible(false);
+        play.setVisible(true);
+    }//GEN-LAST:event_proMouseClicked
 
     /**
      * @param args the command line arguments
@@ -300,6 +379,7 @@ public class MinesWindow extends javax.swing.JFrame {
     private javax.swing.JButton enterBtn;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JTextField heightField;
+    private javax.swing.JLabel intermediate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -307,7 +387,9 @@ public class MinesWindow extends javax.swing.JFrame {
     private javax.swing.JButton menuBtn;
     private javax.swing.JTextField minesField;
     private MinesWidget minesWidget1;
+    private javax.swing.JLabel noob;
     private javax.swing.JPanel play;
+    private javax.swing.JLabel pro;
     private javax.swing.JButton restartBtn;
     private javax.swing.JLabel scoreLabel;
     private javax.swing.JTextField widthField;

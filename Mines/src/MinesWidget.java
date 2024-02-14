@@ -161,7 +161,7 @@ public class MinesWidget extends JComponent {
                 
                 }
                 
-                if (!plan.isCoveredAt(rows, col) && plan.isMineAt(rows, col)) {
+                if (!plan.isCoveredAt(rows, col) && plan.isMineAt(rows, col) ) {
                     game.getState();
                     if (selected.getX() == rows && selected.getY() == col) {
                         g.drawImage(imageExplodedMine, rows * s, col * s, s, s, this);
