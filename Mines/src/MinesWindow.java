@@ -1,7 +1,14 @@
 
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /*
@@ -54,6 +61,7 @@ public class MinesWindow extends javax.swing.JFrame {
         loadbutt = new javax.swing.JButton();
         play = new javax.swing.JPanel();
         minesWidget1 = new MinesWidget();
+        saveButt = new javax.swing.JButton();
         loadgame = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuBar = new javax.swing.JMenu();
@@ -69,6 +77,12 @@ public class MinesWindow extends javax.swing.JFrame {
         enterBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 enterBtnActionPerformed(evt);
+            }
+        });
+
+        minesField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                minesFieldActionPerformed(evt);
             }
         });
 
@@ -179,6 +193,16 @@ public class MinesWindow extends javax.swing.JFrame {
                 minesWidget1MouseClicked(evt);
             }
         });
+
+        saveButt.setText("Save");
+        saveButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtActionPerformed(evt);
+            }
+        });
+        minesWidget1.add(saveButt);
+        saveButt.setBounds(880, 20, 72, 23);
+
         play.add(minesWidget1, java.awt.BorderLayout.CENTER);
 
         backgroundpanel.add(play, "card3");
@@ -229,7 +253,7 @@ public class MinesWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void minesWidget1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minesWidget1MouseClicked
-        int w = minesWidget1.getWidth() /minesWidget1.getGame().getPlan().getWidth();
+        int w = minesWidget1.getWidth() / minesWidget1.getGame().getPlan().getWidth();
         int h = minesWidget1.getHeight() / minesWidget1.getGame().getPlan().getHeight();
         int s = w < h ? w : h;
 
@@ -249,12 +273,11 @@ public class MinesWindow extends javax.swing.JFrame {
                 } else {
                     minesWidget1.uncoverPosition(rows, col);
                     if (minesWidget1.getGame().getState() == 3) {
-                            minesWidget1.uncoverPosition(rows, col);
-                            minesWidget1.getGame().getPlan().uncoverAll();
-                            minesWidget1.repaint();
+                        minesWidget1.uncoverPosition(rows, col);
+                        minesWidget1.getGame().getPlan().uncoverAll();
+                        minesWidget1.repaint();
                         JOptionPane.showMessageDialog(null, "You have won!", "Mines", JOptionPane.INFORMATION_MESSAGE);
 
-                        
                     }
                 }
             } else {
@@ -262,14 +285,13 @@ public class MinesWindow extends javax.swing.JFrame {
             }
         }
 
-            if (evt.getButton() == MouseEvent.BUTTON3) {
-                try {
-                    minesWidget1.markingPosition(rows, col);
-                } catch (WrongActionException ex) {
-                    System.err.println("wrong rows and col or the field is already uncovered!");
-                }
+        if (evt.getButton() == MouseEvent.BUTTON3) {
+            try {
+                minesWidget1.markingPosition(rows, col);
+            } catch (WrongActionException ex) {
+                System.err.println("wrong rows and col or the field is already uncovered!");
             }
-        
+        }
 
         System.out.println("Start" + Integer.toString(l++));
         System.out.println(minesWidget1.getGame().getState());
@@ -343,8 +365,8 @@ public class MinesWindow extends javax.swing.JFrame {
         game = new MinesGame(w, h, mines);
         minesWidget1.setGame(game);
         minesWidget1.repaint();
- 
-        
+
+
     }//GEN-LAST:event_restartBarMouseClicked
 
     private void loadbuttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadbuttActionPerformed
@@ -352,14 +374,38 @@ public class MinesWindow extends javax.swing.JFrame {
         play.setVisible(false);
         menu.setVisible(false);
         loadgame.setVisible(true);
-        
-        myDb.connect();
-        
-   
 
-        
-        
+        myDb.connect();
+
+
     }//GEN-LAST:event_loadbuttActionPerformed
+
+    private void minesFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minesFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_minesFieldActionPerformed
+
+    private void saveButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtActionPerformed
+        String userEnteredName = JOptionPane.showInputDialog(this, "Enter a name for the save:");
+
+    if (userEnteredName != null && !userEnteredName.isEmpty()) {
+        try (FileOutputStream fos = new FileOutputStream("temp_save.dat")) {
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(minesWidget1.getPlan());
+            System.out.println(oos);
+            oos.close();
+
+            File binaryFile = new File("temp_save.dat");
+            DatabaseConnection.insertSavedGame(userEnteredName, binaryFile);
+            binaryFile.delete(); // Delete the temporary file after saving to the database
+         } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Cannot save the game to a temporary file! Error: " + ex.getMessage());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "An error occurred while saving the game to the database! Error: " + ex.getMessage());
+        }
+    }
+
+
+    }//GEN-LAST:event_saveButtActionPerformed
 
     /**
      * @param args the command line arguments
@@ -414,6 +460,7 @@ public class MinesWindow extends javax.swing.JFrame {
     private javax.swing.JPanel play;
     private javax.swing.JLabel pro;
     private javax.swing.JMenu restartBar;
+    private javax.swing.JButton saveButt;
     private javax.swing.JTextField widthField;
     // End of variables declaration//GEN-END:variables
 }

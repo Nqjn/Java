@@ -13,6 +13,7 @@ import javax.swing.JComponent;
 public class MinesWidget extends JComponent {
 
     private MinesGame game;
+    private MinesPlan plan;
     private Point selected = new Point();
     private BufferedImage imageFlag;
     private BufferedImage imageSquare;
@@ -20,6 +21,8 @@ public class MinesWidget extends JComponent {
     private BufferedImage imageMine;
     private BufferedImage imageExplodedMine;
     private BufferedImage imageFace;
+    
+    
     
     
     private BufferedImage[] imageBombCount = new BufferedImage[9];
@@ -107,7 +110,11 @@ public class MinesWidget extends JComponent {
      * @return MinesGame
      */
     public MinesGame getGame() {
-        return this.game;
+        return game;
+    }
+    
+    public MinesPlan getPlan() {
+    return this.plan;
     }
 
     /**
