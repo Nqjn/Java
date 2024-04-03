@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 public class MinesWindow extends javax.swing.JFrame {
 
     private MinesGame game;
+    private DatabaseConnection myDb;
     int l = 0;
     int w;
     int h;
@@ -50,8 +51,10 @@ public class MinesWindow extends javax.swing.JFrame {
         intermediate = new javax.swing.JLabel();
         pro = new javax.swing.JLabel();
         noob = new javax.swing.JLabel();
+        loadbutt = new javax.swing.JButton();
         play = new javax.swing.JPanel();
         minesWidget1 = new MinesWidget();
+        loadgame = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuBar = new javax.swing.JMenu();
         restartBar = new javax.swing.JMenu();
@@ -96,6 +99,13 @@ public class MinesWindow extends javax.swing.JFrame {
             }
         });
 
+        loadbutt.setText("Load Game");
+        loadbutt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadbuttActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
         menu.setLayout(menuLayout);
         menuLayout.setHorizontalGroup(
@@ -111,16 +121,9 @@ public class MinesWindow extends javax.swing.JFrame {
                         .addGap(22, 22, 22)
                         .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(menuLayout.createSequentialGroup()
-                                .addComponent(enterBtn)
-                                .addGap(48, 48, 48)
-                                .addComponent(widthField, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(30, 30, 30)
-                                .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3)
-                                    .addGroup(menuLayout.createSequentialGroup()
-                                        .addComponent(heightField, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(37, 37, 37)
-                                        .addComponent(minesField, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(364, 364, 364)
+                                .addComponent(jLabel3)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(menuLayout.createSequentialGroup()
                                 .addComponent(noob)
                                 .addGap(47, 47, 47)
@@ -128,32 +131,41 @@ public class MinesWindow extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                                 .addComponent(pro)))))
                 .addGap(54, 54, 54))
+            .addGroup(menuLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(enterBtn)
+                .addGap(48, 48, 48)
+                .addComponent(widthField, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(heightField, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
+                .addComponent(minesField, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(244, 244, 244)
+                .addComponent(loadbutt)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         menuLayout.setVerticalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuLayout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addGap(18, 18, 18)
+                .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(enterBtn)
+                    .addComponent(widthField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(heightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(minesField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(loadbutt))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
                 .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(menuLayout.createSequentialGroup()
-                        .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(6, 6, 6)
-                        .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(enterBtn)
-                            .addComponent(widthField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(heightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(minesField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
-                        .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuLayout.createSequentialGroup()
-                                .addComponent(noob)
-                                .addContainerGap())
-                            .addComponent(intermediate, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(menuLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(pro))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuLayout.createSequentialGroup()
+                        .addComponent(noob)
+                        .addContainerGap())
+                    .addComponent(intermediate, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pro, javax.swing.GroupLayout.Alignment.TRAILING)))
         );
 
         backgroundpanel.add(menu, "card2");
@@ -170,6 +182,19 @@ public class MinesWindow extends javax.swing.JFrame {
         play.add(minesWidget1, java.awt.BorderLayout.CENTER);
 
         backgroundpanel.add(play, "card3");
+
+        javax.swing.GroupLayout loadgameLayout = new javax.swing.GroupLayout(loadgame);
+        loadgame.setLayout(loadgameLayout);
+        loadgameLayout.setHorizontalGroup(
+            loadgameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1185, Short.MAX_VALUE)
+        );
+        loadgameLayout.setVerticalGroup(
+            loadgameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 531, Short.MAX_VALUE)
+        );
+
+        backgroundpanel.add(loadgame, "card4");
 
         menuBar.setText("Menu");
         menuBar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -309,6 +334,7 @@ public class MinesWindow extends javax.swing.JFrame {
 
     private void menuBarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuBarMouseClicked
         play.setVisible(false);
+        loadgame.setVisible(false);
         menu.setVisible(true);
 
     }//GEN-LAST:event_menuBarMouseClicked
@@ -320,6 +346,20 @@ public class MinesWindow extends javax.swing.JFrame {
  
         
     }//GEN-LAST:event_restartBarMouseClicked
+
+    private void loadbuttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadbuttActionPerformed
+        // TODO add your handling code here:
+        play.setVisible(false);
+        menu.setVisible(false);
+        loadgame.setVisible(true);
+        
+        myDb.connect();
+        
+   
+
+        
+        
+    }//GEN-LAST:event_loadbuttActionPerformed
 
     /**
      * @param args the command line arguments
@@ -364,6 +404,8 @@ public class MinesWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JButton loadbutt;
+    private javax.swing.JPanel loadgame;
     private javax.swing.JPanel menu;
     private javax.swing.JMenu menuBar;
     private javax.swing.JTextField minesField;
