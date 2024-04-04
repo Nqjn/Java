@@ -1,4 +1,6 @@
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -6,10 +8,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -45,6 +50,7 @@ public class MinesWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         backgroundpanel = new javax.swing.JPanel();
         menu = new javax.swing.JPanel();
@@ -248,8 +254,9 @@ public class MinesWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(backgroundpanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-
+    
         pack();
+   
     }// </editor-fold>//GEN-END:initComponents
 
     private void minesWidget1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minesWidget1MouseClicked
@@ -373,9 +380,15 @@ public class MinesWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         play.setVisible(false);
         menu.setVisible(false);
+        
         loadgame.setVisible(true);
 
         myDb.connect();
+        List<String> savedGame = myDb.getSavedGamesList();
+        createLoadGameButtons(savedGame);
+        
+        
+        
 
 
     }//GEN-LAST:event_loadbuttActionPerformed
@@ -407,6 +420,30 @@ public class MinesWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_saveButtActionPerformed
 
+    private void createLoadGameButtons(List<String> savedGames) {
+    JPanel buttonPanel = new JPanel(); // Create a panel to hold the buttons
+    
+    for (String gameName : savedGames) {
+        JButton loadButton = new JButton(gameName);
+        System.out.println(gameName);
+        
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                myDb.loadGameFromDatabase(gameName);
+            }
+        });
+        
+        buttonPanel.add(loadButton);
+    }
+
+    // Add the button panel to your desired container, e.g., a JFrame or another JPanel
+    loadgame.add(buttonPanel);
+    
+    ((java.awt.CardLayout) backgroundpanel.getLayout()).show(backgroundpanel, "card4");
+}
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -439,6 +476,8 @@ public class MinesWindow extends javax.swing.JFrame {
             new MinesWindow().setVisible(true);
         });
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel backgroundpanel;
